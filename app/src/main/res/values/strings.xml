@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">TrackIt</string>
+    <string name="exercise_name">Nome esercizio</string>
+    <string name="add_new_exercise">Aggiungi nuovo esercizio</string>
+    <string name="exercise_type">Tipo esercizio</string>
+    <string name="concentric_type">Concentrico</string>
+    <string name="isometric_type">Isometria</string>
+    <string name="muscles_involved">Muscoli coinvolti</string>
+    <string name="pushing_movement">Spinta</string>
+    <string name="pulling_movement">Tirata</string>
+    <string name="add_exercise_button">Aggiungi Esercizio</string>
+    <string name="neck">Collo</string>
+    <string name="shoulders">Spalle</string>
+    <string name="arms">Braccia</string>
+    <string name="forearms">Avambracci</string>
+    <string name="back">Dorso</string>
+    <string name="chest">Petto</string>
+    <string name="waist">Addome</string>
+    <string name="hips">Fianchi</string>
+    <string name="thighs">Cosce</string>
+    <string name="calves">Polpacci</string>
+    <string name="type_of_exercise">Tipo di esercizio</string>
+    <string name="type_of_movement">Tipo di movimento</string>
+    <string name="your_workouts">I tuoi workout</string>
+    <string-array
+        name="muscle_groups">
+        <item>@string/neck</item>
+        <item>@string/shoulders</item>
+        <item>@string/arms</item>
+        <item>@string/forearms</item>
+        <item>@string/back</item>
+        <item>@string/chest</item>
+        <item>@string/waist</item>
+        <item>@string/hips</item>
+        <item>@string/thighs</item>
+        <item>@string/calves</item>
+    </string-array>
+</resources>
