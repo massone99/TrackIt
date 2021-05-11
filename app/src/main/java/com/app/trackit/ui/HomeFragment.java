@@ -2,30 +2,26 @@ package com.app.trackit.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.method.KeyListener;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
+import com.app.trackit.ui.animation.FabAnimation;
 import com.app.trackit.ui.recycler_view.HomeAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
+    private boolean isRotated = false;
     private Context context;
 
 
@@ -51,7 +47,10 @@ public class HomeFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.home_fragment, container, false);
         rootView.setTag(TAG);
 
@@ -62,13 +61,32 @@ public class HomeFragment extends Fragment {
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
         mAdapter = new HomeAdapter();
-        // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
-        // END_INCLUDE(initializeRecyclerView)
 
-        rootView.findViewById(R.id.fab_add).setOnClickListener(e -> {
-            FloatingActionButton button = (FloatingActionButton)rootView.findViewById(R.id.fab_add);
-            button.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.ic_close));
+        FabAnimation.init(rootView.findViewById(R.id.fab_add_exercise));
+        FabAnimation.init(rootView.findViewById(R.id.fab_add_workout));
+
+        rootView.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isRotated = FabAnimation.rotateFab(v, !isRotated);
+                if (isRotated) {
+                    FabAnimation.showIn(rootView.findViewById(R.id.fab_add_exercise));
+                    FabAnimation.showIn(rootView.findViewById(R.id.fab_add_workout));
+                } else {
+                    FabAnimation.showOut(rootView.findViewById(R.id.fab_add_exercise));
+                    FabAnimation.showOut(rootView.findViewById(R.id.fab_add_workout));
+                }
+            }
+        });
+
+        rootView.findViewById(R.id.fab_add_exercise).setOnClickListener(v -> {
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setReorderingAllowed(true);
+            fragmentTransaction.replace(R.id.fragment_container_view, AddExerciseFragment.class, null);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
         });
 
         return rootView;

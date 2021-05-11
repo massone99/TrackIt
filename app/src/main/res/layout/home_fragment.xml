@@ -46,6 +46,7 @@
         app:layout_constraintBottom_toTopOf="@+id/fab_add"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
+        app:fabSize = "mini"
         app:srcCompat="@drawable/ic_arm" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -57,6 +58,7 @@
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/fab_add_exercise"
         app:layout_constraintEnd_toEndOf="parent"
+        app:fabSize = "mini"
         app:srcCompat="@drawable/ic_create" />
 
 
