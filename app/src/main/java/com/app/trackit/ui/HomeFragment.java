@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,11 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.trackit.R;
 import com.app.trackit.ui.animation.FabAnimation;
 import com.app.trackit.ui.recycler_view.HomeAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-    private boolean isRotated = false;
+    private boolean clicked = false;
     private Context context;
 
 
@@ -29,8 +31,16 @@ public class HomeFragment extends Fragment {
         LINEAR_LAYOUT_MANAGER
     }
 
+    private Animation rotateOpen;
+    private Animation rotateClose;
+    private Animation fromBottom;
+    private Animation toBottom;
+
     protected RecyclerView mRecyclerView;
     protected HomeAdapter mAdapter;
+    protected FloatingActionButton addFabButton;
+    protected FloatingActionButton addExerciseFabButton;
+    protected FloatingActionButton addWorkoutFabButton;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected LayoutManagerType mCurrentLayoutManagerType;
 
@@ -41,8 +51,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // In this method the initialization of the dataset should be completed
     }
 
     @Nullable
@@ -55,6 +63,9 @@ public class HomeFragment extends Fragment {
         rootView.setTag(TAG);
 
         mRecyclerView = rootView.findViewById(R.id.home_recycler_view);
+        addFabButton =  rootView.findViewById(R.id.fab_add);
+        addExerciseFabButton = rootView.findViewById(R.id.fab_add_exercise);
+        addWorkoutFabButton = rootView.findViewById(R.id.fab_add_workout);
         mLayoutManager = new LinearLayoutManager(getActivity());
 
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
@@ -66,23 +77,22 @@ public class HomeFragment extends Fragment {
         FabAnimation.init(rootView.findViewById(R.id.fab_add_exercise));
         FabAnimation.init(rootView.findViewById(R.id.fab_add_workout));
 
-        rootView.findViewById(R.id.fab_add).setOnClickListener(new View.OnClickListener() {
+        this.addFabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isRotated = FabAnimation.rotateFab(v, !isRotated);
-                if (isRotated) {
-                    FabAnimation.showIn(rootView.findViewById(R.id.fab_add_exercise));
-                    FabAnimation.showIn(rootView.findViewById(R.id.fab_add_workout));
-                } else {
-                    FabAnimation.showOut(rootView.findViewById(R.id.fab_add_exercise));
-                    FabAnimation.showOut(rootView.findViewById(R.id.fab_add_workout));
-                }
+                onFabClick();
             }
         });
 
-        rootView.findViewById(R.id.fab_add_exercise).setOnClickListener(v -> {
+        this.addExerciseFabButton.setOnClickListener(v -> {
+            onFabClick();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction().setCustomAnimations(
+                    R.anim.slide_in,  // enter
+                    R.anim.fade_out,  // exit
+                    R.anim.fade_in,   // popEnter
+                    R.anim.slide_out  // popExit
+            );
             fragmentTransaction.setReorderingAllowed(true);
             fragmentTransaction.replace(R.id.fragment_container_view, AddExerciseFragment.class, null);
             fragmentTransaction.addToBackStack(null);
@@ -97,6 +107,18 @@ public class HomeFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+
+    private void onFabClick() {
+        clicked = FabAnimation.rotateFab(this.addFabButton, !clicked);
+        if (clicked) {
+            FabAnimation.showIn(this.addExerciseFabButton);
+            FabAnimation.showIn(this.addWorkoutFabButton);
+        } else {
+            FabAnimation.showOut(this.addExerciseFabButton);
+            FabAnimation.showOut(this.addWorkoutFabButton);
+        }
     }
 
     /**

@@ -45,7 +45,7 @@
         android:contentDescription="@string/fab_add_new_exercise"
         app:layout_constraintBottom_toTopOf="@+id/fab_add"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:fabSize = "mini"
         app:srcCompat="@drawable/ic_arm" />
 
@@ -55,11 +55,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/fab_add_new_workout"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/fab_add_exercise"
         app:layout_constraintEnd_toEndOf="parent"
         app:fabSize = "mini"
         app:srcCompat="@drawable/ic_create" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
