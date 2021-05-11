@@ -33,7 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public HomeAdapter(String[] dataSet) {
+    public HomeAdapter() {
         // localDataSet = dataSet;
     }
 

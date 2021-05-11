@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         // getSupportActionBar().hide();
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            AddExerciseFragment addExerciseFragment = new AddExerciseFragment();
+            // AddExerciseFragment addExerciseFragment = new AddExerciseFragment();
             HomeFragment homeFragment = new HomeFragment();
             transaction.replace(R.id.fragment_container_view, homeFragment);
             transaction.commit();

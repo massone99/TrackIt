@@ -22,6 +22,10 @@
     <string name="type_of_exercise">Tipo di esercizio</string>
     <string name="type_of_movement">Tipo di movimento</string>
     <string name="your_workouts">I tuoi workout</string>
+    <string name="fab_add">Aggiungi</string>
+    <string name="fab_close">Chiudi</string>
+    <string name="fab_add_new_workout">Aggiungi nuovo workout</string>
+    <string name="fab_add_new_exercise">Aggiungi nuovo esercizio</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

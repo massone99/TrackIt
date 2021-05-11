@@ -1,6 +1,10 @@
 package com.app.trackit.ui;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.method.KeyListener;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +12,22 @@ import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
 import com.app.trackit.ui.recycler_view.HomeAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
+    private Context context;
+
 
     private enum LayoutManagerType {
         LINEAR_LAYOUT_MANAGER
@@ -28,7 +37,6 @@ public class HomeFragment extends Fragment {
     protected HomeAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
     protected LayoutManagerType mCurrentLayoutManagerType;
-    protected String[] mDataset;
 
     public HomeFragment() {
         super(R.layout.home_fragment);
@@ -53,12 +61,24 @@ public class HomeFragment extends Fragment {
         mCurrentLayoutManagerType = LayoutManagerType.LINEAR_LAYOUT_MANAGER;
         setRecyclerViewLayoutManager(mCurrentLayoutManagerType);
 
-        mAdapter = new HomeAdapter(mDataset);
+        mAdapter = new HomeAdapter();
         // Set CustomAdapter as the adapter for RecyclerView.
         mRecyclerView.setAdapter(mAdapter);
         // END_INCLUDE(initializeRecyclerView)
 
+        rootView.findViewById(R.id.fab_add).setOnClickListener(e -> {
+            FloatingActionButton button = (FloatingActionButton)rootView.findViewById(R.id.fab_add);
+            button.setImageDrawable(ContextCompat.getDrawable(this.context, R.drawable.ic_close));
+        });
+
         return rootView;
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     /**
