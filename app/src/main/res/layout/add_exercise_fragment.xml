@@ -7,7 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/new_exercise_title"
@@ -21,13 +21,13 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/black"
             android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/exercise_name_edit_text"
+            app:layout_constraintBottom_toTopOf="@id/exercise_name_input_layout"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/exercise_name_edit_text"
+            android:id="@+id/exercise_name_input_layout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,6 +38,7 @@
             app:layout_constraintTop_toBottomOf="@id/new_exercise_title">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/exercise_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/exercise_name" />
@@ -57,7 +58,7 @@
             app:layout_constraintBottom_toTopOf="@id/type_of_exercise"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/exercise_name_edit_text" />
+            app:layout_constraintTop_toBottomOf="@id/exercise_name_input_layout" />
 
         <RadioGroup
             android:id="@+id/type_of_exercise"
@@ -114,7 +115,7 @@
             app:layout_constraintBottom_toTopOf="@id/muscles_chip_group"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/type_of_exercise"/>
+            app:layout_constraintTop_toBottomOf="@id/type_of_exercise" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/muscles_chip_group"
@@ -258,7 +259,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/type_of_movement"
-            app:layout_constraintVertical_bias="1.0"/>
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

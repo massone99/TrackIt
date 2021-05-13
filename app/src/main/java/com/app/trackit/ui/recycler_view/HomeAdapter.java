@@ -8,10 +8,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.trackit.MainActivity;
 import com.app.trackit.R;
+import com.app.trackit.model.Exercise;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.util.List;
+
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
+
+    private List<Exercise> exerciseList;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final MaterialTextView textView;
@@ -29,12 +35,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
 
     /**
      * Initialize the dataset of the Adapter.
-     *
-     * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView.
      */
     public HomeAdapter() {
-        // localDataSet = dataSet;
+
     }
 
     // Create new views (invoked by the layout manager)
@@ -45,7 +48,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.home_row_item, parent, false);
         ViewHolder holder = new ViewHolder(view);
-        holder.getTextView().setText("Allenamento");
         return holder;
     }
 
@@ -54,13 +56,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        holder.getTextView().setText("Allenamento");
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        // return localDataSet.length;
         return 1;
     }
 }
