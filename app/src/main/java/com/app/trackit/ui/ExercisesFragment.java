@@ -12,20 +12,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
-import com.app.trackit.ui.recycler_view.HomeAdapter;
+import com.app.trackit.ui.components.ExpandableFab;
+import com.app.trackit.ui.recycler_view.ExerciseAdapter;
 
-public class HomeFragment extends Fragment {
+public class ExercisesFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "ExercisesFragment";
 
     protected RecyclerView recyclerView;
-    protected HomeAdapter homeAdapter;
+    protected ExerciseAdapter exerciseAdapter;
+
+    protected ExpandableFab fab;
+
     protected RecyclerView.LayoutManager layoutManager;
 
-
-    public HomeFragment() {
-        super(R.layout.fragment_home);
+    public ExercisesFragment() {
+        super(R.layout.fragment_exercise_list);
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,18 +42,23 @@ public class HomeFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(
+                R.layout.fragment_exercise_list,
+                container,
+                false);
         rootView.setTag(TAG);
 
-        recyclerView = rootView.findViewById(R.id.home_recycler_view);
+        recyclerView = rootView.findViewById(R.id.exercises_recycler_view);
 
         layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter();
-        recyclerView.setAdapter(homeAdapter);
+        exerciseAdapter = new ExerciseAdapter();
+        recyclerView.setAdapter(exerciseAdapter);
 
         return rootView;
     }
+
+
 }

@@ -1,4 +1,4 @@
-package com.app.trackit.model.db;
+package com.app.trackit.model.db.relations;
 
 import androidx.room.Entity;
 

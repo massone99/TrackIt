@@ -9,8 +9,9 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.app.trackit.model.db.ExerciseWithMuscles;
+import com.app.trackit.model.db.relations.ExerciseWithMuscles;
 import com.app.trackit.model.Exercise;
+import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
@@ -27,12 +28,8 @@ public interface ExerciseDao {
     public void update(Exercise exercise);
 
     @Query("SELECT * from exercises")
-    public List<Exercise> loadAllExercises();
-
-    @Transaction
-    @Query("SELECT * FROM exercises")
-    public List<ExerciseWithMuscles> loadExercisesWithMuscles();
+    public ListenableFuture<List<Exercise>> loadAllExercises();
 
     @Query("SELECT COUNT(name) FROM exercises")
-    public Integer getExercisesCount();
+    public ListenableFuture<Integer> getExercisesCount();
 }

@@ -8,7 +8,7 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.app.trackit.model.Muscle;
-import com.app.trackit.model.db.MuscleWithExercises;
+import com.app.trackit.model.db.relations.MuscleWithExercises;
 
 import java.util.List;
 

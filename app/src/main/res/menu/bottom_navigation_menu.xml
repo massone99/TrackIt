@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/workouts_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_create"
+        android:title="@string/workouts_page_title"/>
+
+    <item
+        android:id="@+id/exercises_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_arm"
+        android:title="@string/exercises_page_title"/>
+
+    <item
+        android:id="@+id/progress_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_stats"
+        android:title="@string/stats_page_title"/>
+
+    <item
+        android:id="@+id/photos_page"
+        android:enabled="true"
+        android:icon="@drawable/ic_album"
+        android:title="@string/progress_page_title"/>
+
+</menu>

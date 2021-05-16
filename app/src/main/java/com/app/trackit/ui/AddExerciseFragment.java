@@ -35,7 +35,7 @@ public class AddExerciseFragment extends Fragment {
     private View rootView;
 
     public AddExerciseFragment() {
-        super(R.layout.add_exercise_fragment);
+        super(R.layout.fragment_add_exercise);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class AddExerciseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.rootView = inflater.inflate(R.layout.add_exercise_fragment, container, false);
+        this.rootView = inflater.inflate(R.layout.fragment_add_exercise, container, false);
         this.rootView.setTag(TAG);
 
         this.exerciseNameEditText = this.rootView.findViewById(R.id.exercise_name_edit_text);
@@ -71,12 +71,9 @@ public class AddExerciseFragment extends Fragment {
                     checkedType.getText().toString(),
                     checkedMovement.getText().toString());
             exercise.setMuscles(muscles);
-            new Thread()
-            {
-                public void run() {
-                    MainActivity.getDb().exerciseDao().insert(exercise);
-                }
-            }.start();
+
+            MainActivity.repo.insert(exercise);
+
             for (Muscle muscle: muscles){
                 muscle.addExercise(exercise);
             }

@@ -9,16 +9,15 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/home_item_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/whitesmoke"
-        >
+        android:layout_height="wrap_content">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/home_item_text_view"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:textColor="@color/black"
+            android:layout_height="match_parent"
+            android:background="@color/whitesmoke"
             android:textAlignment="center"
+            android:textColor="@color/black"
             tools:text="Allenamento" />
 
     </com.google.android.material.card.MaterialCardView>
