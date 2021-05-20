@@ -7,23 +7,29 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.app.trackit.model.Muscle;
+import com.app.trackit.model.PerformedExercise;
+import com.app.trackit.model.Set;
+import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.dao.ExerciseDao;
 import com.app.trackit.model.Exercise;
-import com.app.trackit.model.db.relations.ExerciseMuscleCrossRef;
-import com.app.trackit.model.db.relations.MuscleExerciseCrossRef;
+import com.app.trackit.model.db.dao.WorkoutDao;
+import com.app.trackit.model.db.relations.PerformedExerciseSetCrossRef;
+import com.google.common.collect.Sets;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Database(entities = {
         Exercise.class,
-        Muscle.class,
-        MuscleExerciseCrossRef.class,
-        ExerciseMuscleCrossRef.class},
+        Workout.class,
+        Set.class,
+        PerformedExercise.class,
+        PerformedExerciseSetCrossRef.class},
         version = 1)
 public abstract class TrackItDatabase extends RoomDatabase {
 
     public abstract ExerciseDao exerciseDao();
+    public abstract WorkoutDao workoutDao();
 
     private static volatile TrackItDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

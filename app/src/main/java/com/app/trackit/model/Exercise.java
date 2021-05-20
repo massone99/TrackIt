@@ -15,14 +15,14 @@ public class Exercise {
 
     @PrimaryKey
     @NonNull
-    public String name;
-    public String type;
-    public String movement;
+    private String name;
+    private String type;
+    private String movement;
     @Ignore
     // The muscles worked by this exercise
     private List<Muscle> muscles = new LinkedList<>();
 
-    public Exercise(String name,
+    public Exercise(@NonNull String name,
                     String type,
                     String movement){
         this.name = name;

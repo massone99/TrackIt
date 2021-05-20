@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,18 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.trackit.R;
 import com.app.trackit.model.viewmodel.ExercisesViewModel;
 import com.app.trackit.ui.recycler_view.adapter.ExerciseAdapter;
+import com.app.trackit.ui.recycler_view.adapter.PickExerciseAdapter;
 
-public class ExercisesFragment extends Fragment implements LifecycleOwner{
+public class PickExerciseFragment extends Fragment{
 
-    private static final String TAG = "ExercisesFragment";
+    private static final String TAG = "PickExerciseFragment";
 
     protected RecyclerView recyclerView;
-    protected ExerciseAdapter exerciseAdapter;
+    protected PickExerciseAdapter exerciseAdapter;
+
+    protected AddWorkoutFragment workoutFragment;
 
     private ExercisesViewModel model;
 
-    public ExercisesFragment() {
-        super(R.layout.fragment_exercise_list);
+    public PickExerciseFragment(AddWorkoutFragment workoutFragment) {
+        super(R.layout.fragment_pick_exercise);
+        this.workoutFragment = workoutFragment;
     }
 
     @Override
@@ -44,24 +47,17 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
         View rootView = inflater.inflate(
-                R.layout.fragment_exercise_list,
+                R.layout.fragment_pick_exercise,
                 container,
                 false);
         rootView.setTag(TAG);
 
-        recyclerView = rootView.findViewById(R.id.exercises_recycler_view);
-        exerciseAdapter = new ExerciseAdapter(new ExerciseAdapter.ExerciseDiff());
+        recyclerView = rootView.findViewById(R.id.pick_exercises_recycler_view);
+        exerciseAdapter = new PickExerciseAdapter(new PickExerciseAdapter.ExerciseDiff());
         recyclerView.setAdapter(exerciseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        exerciseAdapter.submitList(model.getAllExercises().getValue());
     }
 }

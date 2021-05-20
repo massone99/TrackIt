@@ -12,14 +12,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
-import com.app.trackit.ui.recycler_view.HomeAdapter;
+import com.app.trackit.ui.components.AddFab;
+import com.app.trackit.ui.recycler_view.adapter.WorkoutAdapter;
 
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
 
+    protected AddFab fab;
     protected RecyclerView recyclerView;
-    protected HomeAdapter homeAdapter;
+    protected WorkoutAdapter workoutAdapter;
     protected RecyclerView.LayoutManager layoutManager;
 
 
@@ -41,14 +43,22 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         rootView.setTag(TAG);
 
+        this.fab = new AddFab(
+                rootView.findViewById(R.id.fab_add),
+                rootView.findViewById(R.id.fab_add_exercise),
+                rootView.findViewById(R.id.fab_add_workout),
+                rootView,
+                this
+        );
+
         recyclerView = rootView.findViewById(R.id.home_recycler_view);
 
         layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter();
-        recyclerView.setAdapter(homeAdapter);
+        workoutAdapter = new WorkoutAdapter();
+        recyclerView.setAdapter(workoutAdapter);
 
         return rootView;
     }

@@ -8,7 +8,7 @@
     android:layout_marginBottom="16dp">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/exercise_item_card_view"
+        android:id="@+id/pick_exercise_item_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -23,11 +23,10 @@
             android:layout_margin="8dp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/exercise_item_text_view"
+                android:id="@+id/pick_exercise_item_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:textAlignment="viewStart"
+                android:layout_marginStart="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -35,43 +34,27 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Nome" />
 
-            <ImageButton
-                android:id="@+id/delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="8dp"
-                android:backgroundTint="@color/white"
-                android:contentDescription="@string/delete"
-                android:src="@drawable/ic_delete"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/exercise_item_type_text_view"
+                android:id="@+id/pick_exercise_item_type_text_view"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/exercise_item_text_view"
+                app:layout_constraintTop_toBottomOf="@id/pick_exercise_item_text_view"
                 tools:text="Tipo" />
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/exercise_item_movement_text_view"
+                android:id="@+id/pick_exercise_item_movement_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="218dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toStartOf="@+id/delete_button"
                 app:layout_constraintHorizontal_bias="0.11"
-                app:layout_constraintStart_toEndOf="@+id/exercise_item_type_text_view"
-                app:layout_constraintTop_toBottomOf="@+id/exercise_item_text_view"
+                app:layout_constraintStart_toEndOf="@+id/pick_exercise_item_type_text_view"
+                app:layout_constraintTop_toBottomOf="@+id/pick_exercise_item_text_view"
                 tools:text="Movimento" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

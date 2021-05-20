@@ -17,8 +17,6 @@
 
     </androidx.fragment.app.FragmentContainerView>
 
-    <include layout="@layout/fab_button"/>
-
     <include layout="@layout/bottom_navigation_bar"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

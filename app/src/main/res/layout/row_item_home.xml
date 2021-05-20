@@ -9,7 +9,12 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/home_item_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardElevation="6dp"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="15dp"
+        android:layout_gravity="start">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/home_item_text_view"

@@ -21,8 +21,8 @@
     <string name="calves">Polpacci</string>
     <string name="type_of_exercise">Tipo di esercizio</string>
     <string name="type_of_movement">Tipo di movimento</string>
-    <string name="your_workouts">I tuoi workout</string>
-    <string name="your_exercises">I tuoi esercizi</string>
+    <string name="your_workouts">Allenamenti</string>
+    <string name="your_exercises">Esercizi</string>
     <string name="fab_add">Aggiungi</string>
     <string name="fab_close">Chiudi</string>
     <string name="fab_add_new_workout">Aggiungi nuovo workout</string>
@@ -31,7 +31,13 @@
     <string name="exercises_page_title">Esercizi</string>
     <string name="stats_page_title">Statistiche</string>
     <string name="progress_page_title">Progressi</string>
-    <string name="add_new_workout">Aggiungi nuovo workout</string>
+    <string name="add_new_workout">Nuovo Allenamento</string>
+    <string name="add_exercise">Aggiungi Esercizio</string>
+    <string name="select_exercise">Seleziona esercizio</string>
+    <string name="add_set">Aggiungi set</string>
+    <string name="kg">KG</string>
+    <string name="reps">Ripetizioni</string>
+    <string name="delete">delete</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

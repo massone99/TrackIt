@@ -6,10 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
-
-import com.app.trackit.model.db.relations.ExerciseWithMuscles;
 import com.app.trackit.model.Exercise;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -27,9 +24,9 @@ public interface ExerciseDao {
     @Update
     public void update(Exercise exercise);
 
-    @Query("SELECT * from exercises")
-    public ListenableFuture<List<Exercise>> loadAllExercises();
+    @Query("SELECT * from exercises where name = :arg0")
+    public ListenableFuture<Exercise> getExercise(String arg0);
 
-    @Query("SELECT COUNT(name) FROM exercises")
-    public ListenableFuture<Integer> getExercisesCount();
+    @Query("SELECT * from exercises")
+    public LiveData<List<Exercise>> getAll();
 }

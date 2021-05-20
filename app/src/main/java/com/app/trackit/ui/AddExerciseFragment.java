@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.app.trackit.MainActivity;
 import com.app.trackit.R;
-import com.app.trackit.model.Muscle;
 import com.app.trackit.model.Exercise;
+import com.app.trackit.model.Muscle;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
@@ -31,7 +31,6 @@ public class AddExerciseFragment extends Fragment {
     private RadioGroup exerciseTypeRadio;
     private ChipGroup musclesChipGroup;
     private RadioGroup exerciseMovementRadio;
-    private Button addExerciseButton;
     private View rootView;
 
     public AddExerciseFragment() {
@@ -41,8 +40,6 @@ public class AddExerciseFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // In this method the initialization of the dataset should be completed
     }
 
     @Nullable
@@ -55,14 +52,14 @@ public class AddExerciseFragment extends Fragment {
         this.exerciseTypeRadio = this.rootView.findViewById(R.id.type_of_exercise);
         this.musclesChipGroup = this.rootView.findViewById(R.id.muscles_chip_group);
         this.exerciseMovementRadio = this.rootView.findViewById(R.id.type_of_movement);
-        this.addExerciseButton = this.rootView.findViewById(R.id.add_exercise_button);
+        Button addExerciseButton = this.rootView.findViewById(R.id.add_exercise_button);
 
-        this.addExerciseButton.setOnClickListener(v -> {
+        addExerciseButton.setOnClickListener(v -> {
             RadioButton checkedType = this.rootView.findViewById(exerciseTypeRadio.getCheckedRadioButtonId());
             RadioButton checkedMovement = this.rootView.findViewById(exerciseMovementRadio.getCheckedRadioButtonId());
             List<Integer> ids = musclesChipGroup.getCheckedChipIds();
             List<Muscle> muscles = new LinkedList<>();
-            for (Integer id:ids){
+            for (Integer id : ids) {
                 Chip muscle = musclesChipGroup.findViewById(id);
                 muscles.add(new Muscle(muscle.getText().toString()));
             }
@@ -72,9 +69,9 @@ public class AddExerciseFragment extends Fragment {
                     checkedMovement.getText().toString());
             exercise.setMuscles(muscles);
 
-            MainActivity.repo.insert(exercise);
+            MainActivity.repo.insertExercise(exercise);
 
-            for (Muscle muscle: muscles){
+            for (Muscle muscle : muscles) {
                 muscle.addExercise(exercise);
             }
             getActivity().getSupportFragmentManager().popBackStack();
