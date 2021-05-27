@@ -1,6 +1,7 @@
 package com.app.trackit.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,22 +9,28 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
+import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.ui.components.AddFab;
-import com.app.trackit.ui.recycler_view.adapter.WorkoutAdapter;
+import com.app.trackit.ui.recycler_view.adapter.WorkoutListAdapter;
 
-public class HomeFragment extends Fragment {
+import java.util.Collections;
+
+public class HomeFragment extends Fragment implements LifecycleOwner {
 
     private static final String TAG = "HomeFragment";
 
     protected AddFab fab;
     protected RecyclerView recyclerView;
-    protected WorkoutAdapter workoutAdapter;
-    protected RecyclerView.LayoutManager layoutManager;
+    protected WorkoutListAdapter workoutListAdapter;
+    protected RecyclerView.LayoutManager linearLayoutManager;
 
+    private WorkoutListViewModel model;
 
     public HomeFragment() {
         super(R.layout.fragment_home);
@@ -32,6 +39,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        model = new ViewModelProvider(requireActivity()).get(WorkoutListViewModel.class);
     }
 
     @Nullable
@@ -43,6 +51,12 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         rootView.setTag(TAG);
 
+        model.getObservableWorkouts().observe(getViewLifecycleOwner(), workouts -> {
+            Collections.reverse(workouts);
+            workoutListAdapter.submitList(workouts);
+        });
+
+        // FIXME: put this button inside the other fragments too
         this.fab = new AddFab(
                 rootView.findViewById(R.id.fab_add),
                 rootView.findViewById(R.id.fab_add_exercise),
@@ -53,12 +67,12 @@ public class HomeFragment extends Fragment {
 
         recyclerView = rootView.findViewById(R.id.home_recycler_view);
 
-        layoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
 
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
 
-        workoutAdapter = new WorkoutAdapter();
-        recyclerView.setAdapter(workoutAdapter);
+        workoutListAdapter = new WorkoutListAdapter(new WorkoutListAdapter.WorkoutDiff(), getActivity());
+        recyclerView.setAdapter(workoutListAdapter);
 
         return rootView;
     }

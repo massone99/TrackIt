@@ -14,34 +14,33 @@ import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
 import com.google.android.material.card.MaterialCardView;
 
-public class ExerciseViewHolder extends RecyclerView.ViewHolder {
+public class ExerciseListViewHolder extends RecyclerView.ViewHolder {
 
-    private final MaterialCardView cardView;
     private final TextView nameTextView;
     private final TextView typeTextView;
     private final TextView movementTextView;
 
-    public ExerciseViewHolder(@NonNull View itemView) {
+    public ExerciseListViewHolder(@NonNull View itemView) {
         super(itemView);
-        cardView = itemView.findViewById(R.id.exercise_item_card_view);
         nameTextView = itemView.findViewById(R.id.exercise_item_text_view);
         typeTextView = itemView.findViewById(R.id.exercise_item_type_text_view);
         movementTextView = itemView.findViewById(R.id.exercise_item_movement_text_view);
         ImageButton deleteButton = itemView.findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(v -> {
             Exercise exercise = null;
-            try {
-                exercise = MainActivity
-                        .repo
-                        .getExercise(nameTextView.getText().toString())
-                        .get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            exercise = MainActivity
+                    .repo
+                    .getExercise(nameTextView.getText().toString());
             MainActivity
                     .repo
                     .deleteExercise(exercise);
         });
+    }
+
+    public static ExerciseListViewHolder create(ViewGroup parent) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.row_item_exercise, parent, false);
+        return new ExerciseListViewHolder(view);
     }
 
     public void bind(String name,
@@ -50,12 +49,6 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         nameTextView.setText(name);
         typeTextView.setText(type);
         movementTextView.setText(movement);
-    }
-
-    public static ExerciseViewHolder create(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_item_exercise, parent, false);
-        return new ExerciseViewHolder(view);
     }
 
 }

@@ -3,27 +3,37 @@ package com.app.trackit.ui.recycler_view.adapter;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.trackit.MainActivity;
 import com.app.trackit.model.Exercise;
-import com.app.trackit.ui.recycler_view.viewholder.ExerciseViewHolder;
 import com.app.trackit.ui.recycler_view.viewholder.PickExerciseViewHolder;
 
 public class PickExerciseAdapter extends ListAdapter<Exercise, PickExerciseViewHolder> {
 
     private final String TAG = "PickExerciseAdapter";
-    // There should be a ViewModel made only to manage this Fragment content
 
-    public PickExerciseAdapter(@NonNull DiffUtil.ItemCallback<Exercise> diffCallback) {
+    private int workoutId;
+
+    private FragmentActivity fragmentActivity;
+    private WorkoutAdapter workoutAdapter;
+
+    public PickExerciseAdapter(@NonNull DiffUtil.ItemCallback<Exercise> diffCallback,
+                               FragmentActivity fragmentActivity,
+                               WorkoutAdapter workoutAdapter,
+                               int workoutId) {
         super(diffCallback);
+        this.workoutId = MainActivity.repo.getCurrentWorkout().getWorkoutId();
+        this.fragmentActivity = fragmentActivity;
+        this.workoutAdapter = workoutAdapter;
     }
 
     @NonNull
     @Override
     public PickExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return PickExerciseViewHolder.create(parent);
+        return PickExerciseViewHolder.create(parent, fragmentActivity, workoutId);
     }
 
     @Override

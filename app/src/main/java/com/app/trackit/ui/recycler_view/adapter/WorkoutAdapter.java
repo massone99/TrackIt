@@ -1,56 +1,78 @@
 package com.app.trackit.ui.recycler_view.adapter;
 
+import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.ListAdapter;
 
+import com.app.trackit.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
-import com.google.android.material.textview.MaterialTextView;
+import com.app.trackit.model.PerformedExercise;
+import com.app.trackit.model.Set;
+import com.app.trackit.model.viewmodel.WorkoutViewModel;
+import com.app.trackit.ui.recycler_view.viewholder.WorkoutViewHolder;
 
 import java.util.List;
 
-public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.ViewHolder> {
+public class WorkoutAdapter extends ListAdapter<PerformedExercise, WorkoutViewHolder> {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final MaterialTextView textView;
+    private final String TAG = "WorkoutAdapter";
 
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-            textView = (MaterialTextView) view.findViewById(R.id.home_item_text_view);
-        }
+    private WorkoutViewModel model;
 
-        public TextView getTextView() {
-            return textView;
-        }
+    private Fragment fragment;
+    private Activity activity;
+
+    public WorkoutAdapter(@NonNull DiffUtil.ItemCallback<PerformedExercise> diffCallback,
+                          WorkoutViewModel model,
+                          Fragment fragment,
+                          Activity activity) {
+        super(diffCallback);
+        this.model = model;
+        this.fragment = fragment;
+        this.activity = activity;
     }
 
-    // Create new views (invoked by the layout manager)
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Create a new view, which defines the UI of the list item
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_item_home, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return holder;
+    public WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return WorkoutViewHolder.create(parent, model);
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
+    public void onBindViewHolder(@NonNull WorkoutViewHolder holder, int position) {
+        PerformedExercise current = getItem(position);
+        holder.bind(current.getName(), current.getPerformedExerciseId());
+
+        // Managing the Sets RecyclerView
+        final SetListAdapter adapter = new SetListAdapter(new SetListAdapter.SetDiff(), activity);
+
+        model.getSetsFromExercise(current.getPerformedExerciseId()).observe(fragment, adapter::submitList);
+        Log.d(TAG, model.getSetsFromExercise(current.getPerformedExerciseId()).toString());
+
+        holder.getRecyclerView().setLayoutManager(new LinearLayoutManager(activity));
+        holder.getRecyclerView().setAdapter(adapter);
     }
 
-    // Return the size of your dataset (invoked by the layout manager)
-    @Override
-    public int getItemCount() {
-        return 1;
+    public static class ExerciseDiff extends DiffUtil.ItemCallback<PerformedExercise> {
+
+        @Override
+        public boolean areItemsTheSame(@NonNull PerformedExercise oldItem, @NonNull PerformedExercise newItem) {
+            return oldItem == newItem;
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull PerformedExercise oldItem, @NonNull PerformedExercise newItem) {
+            return oldItem.getName().equals(newItem.getName());
+        }
     }
 }

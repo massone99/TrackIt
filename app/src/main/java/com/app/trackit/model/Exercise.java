@@ -22,6 +22,11 @@ public class Exercise {
     // The muscles worked by this exercise
     private List<Muscle> muscles = new LinkedList<>();
 
+    public static enum TYPE{
+        RIPETIZIONI,
+        TEMPO
+    }
+
     public Exercise(@NonNull String name,
                     String type,
                     String movement){

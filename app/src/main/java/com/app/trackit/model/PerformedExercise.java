@@ -4,13 +4,20 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.app.trackit.MainActivity;
+
 @Entity(tableName = "performed_exercises")
 public class PerformedExercise {
 
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    private int performedExerciseId;
     private String name;
-    private int workoutId;
+    private int parentWorkoutId;
+
+    public PerformedExercise(String name, int parentWorkoutId) {
+        this.name = name;
+        this.parentWorkoutId = MainActivity.repo.getCurrentWorkout().getWorkoutId();
+    }
 
     @NonNull
     public String getName() {
@@ -21,12 +28,20 @@ public class PerformedExercise {
         this.name = name;
     }
 
-    public int getWorkoutId() {
-        return workoutId;
+    public int getPerformedExerciseId() {
+        return performedExerciseId;
     }
 
-    public void setWorkoutId(int workoutId) {
-        this.workoutId = workoutId;
+    public void setPerformedExerciseId(int performedExerciseId) {
+        this.performedExerciseId = performedExerciseId;
+    }
+
+    public void setId(int id) {
+        this.performedExerciseId = id;
+    }
+
+    public int getParentWorkoutId() {
+        return parentWorkoutId;
     }
 
 }

@@ -14,8 +14,8 @@ public class PerformedExerciseWithSets {
     @Embedded
     public PerformedExercise exercise;
     @Relation(
-            parentColumn = "name",
-            entityColumn = "number",
+            parentColumn = "performedExerciseId",
+            entityColumn = "setId",
             associateBy = @Junction(PerformedExerciseSetCrossRef.class)
     )
     public List<Set> sets;

@@ -3,8 +3,8 @@
     <string name="exercise_name">Nome esercizio</string>
     <string name="add_new_exercise">Aggiungi nuovo esercizio</string>
     <string name="exercise_type">Tipo esercizio</string>
-    <string name="concentric_type">Concentrico</string>
-    <string name="isometric_type">Isometria</string>
+    <string name="concentric_type">Ripetizioni</string>
+    <string name="isometric_type">Tempo</string>
     <string name="muscles_involved">Muscoli coinvolti</string>
     <string name="pushing_movement">Spinta</string>
     <string name="pulling_movement">Tirata</string>
@@ -38,6 +38,13 @@
     <string name="kg">KG</string>
     <string name="reps">Ripetizioni</string>
     <string name="delete">delete</string>
+    <string name="discard_workout">Annulla Allenamento</string>
+    <string name="confirm_workout">Conferma Allenamento</string>
+    <string name="remove_exercise">Remove exercise</string>
+    <string name="rimuovi_esercizio">Rimuovi esercizio</string>
+    <string name="save">Salva</string>
+    <string name="remove_set">Rimuovi set</string>
+    <string name="tempo_sec">Tempo(sec)</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

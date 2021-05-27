@@ -7,25 +7,25 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
 import com.app.trackit.model.Exercise;
-import com.app.trackit.ui.recycler_view.viewholder.ExerciseViewHolder;
+import com.app.trackit.ui.recycler_view.viewholder.ExerciseListViewHolder;
 
-public class ExerciseAdapter extends ListAdapter<Exercise, ExerciseViewHolder> {
+public class ExerciseListAdapter extends ListAdapter<Exercise, ExerciseListViewHolder> {
 
     private final String TAG = "ExerciseAdapter";
     // There should be a ViewModel made only to manage this Fragment content
 
-    public ExerciseAdapter(@NonNull DiffUtil.ItemCallback<Exercise> diffCallback) {
+    public ExerciseListAdapter(@NonNull DiffUtil.ItemCallback<Exercise> diffCallback) {
         super(diffCallback);
     }
 
     @NonNull
     @Override
-    public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return ExerciseViewHolder.create(parent);
+    public ExerciseListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return ExerciseListViewHolder.create(parent);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ExerciseListViewHolder holder, int position) {
         Exercise current = getItem(position);
         holder.bind(current.getName(), current.getType(), current.getMovement());
     }

@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,30 +15,44 @@ import java.util.Map;
 @Entity(tableName = "workouts")
 public class Workout {
 
-    @PrimaryKey
-    @ColumnInfo(name = "id")
-    public int id;
+    @PrimaryKey(autoGenerate = true)
+    private int workoutId;
 
     @ColumnInfo(name = "date")
-    String date;
+    private String date;
+    // 0 if the workout is not confirmed, 1 otherwise
+    private int confirmed;
 
-    @Ignore
-    Map<Exercise, List<Set>> workoutExercises;
+    public Workout() {
+        this.date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        this.confirmed = 0;
+    }
 
-    public Workout(String date) {
-        this.workoutExercises = new HashMap<>();
-        this.date = date;
+    public int getWorkoutId() {
+        return workoutId;
+    }
+
+    public void setWorkoutId(int workoutId) {
+        this.workoutId = workoutId;
     }
 
     public String getDate() {
         return date;
     }
 
-    public void addExercise(Exercise exercise) {
-        this.workoutExercises.put(exercise, new LinkedList<>());
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public Map<Exercise, List<Set>> getWorkoutExercises() {
-        return workoutExercises;
+    public int getConfirmed() {
+        return confirmed;
+    }
+
+    /**
+     * Sets the confirmed flag for this workout
+     * @param confirmed is 1 if the Workout is confirmed, 0 otherwise
+     */
+    public void setConfirmed(int confirmed) {
+        this.confirmed = confirmed;
     }
 }

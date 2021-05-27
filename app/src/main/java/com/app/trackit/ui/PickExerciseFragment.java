@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
 import com.app.trackit.model.viewmodel.ExercisesViewModel;
-import com.app.trackit.ui.recycler_view.adapter.ExerciseAdapter;
 import com.app.trackit.ui.recycler_view.adapter.PickExerciseAdapter;
+import com.app.trackit.ui.recycler_view.adapter.WorkoutAdapter;
 
 public class PickExerciseFragment extends Fragment{
 
@@ -23,14 +23,20 @@ public class PickExerciseFragment extends Fragment{
 
     protected RecyclerView recyclerView;
     protected PickExerciseAdapter exerciseAdapter;
+    protected WorkoutAdapter workoutAdapter;
+
+    private int id;
 
     protected AddWorkoutFragment workoutFragment;
 
     private ExercisesViewModel model;
 
-    public PickExerciseFragment(AddWorkoutFragment workoutFragment) {
+    public PickExerciseFragment(AddWorkoutFragment workoutFragment,
+                                WorkoutAdapter workoutAdapter,
+                                int id) {
         super(R.layout.fragment_pick_exercise);
         this.workoutFragment = workoutFragment;
+        this.id = id;
     }
 
     @Override
@@ -54,7 +60,11 @@ public class PickExerciseFragment extends Fragment{
         rootView.setTag(TAG);
 
         recyclerView = rootView.findViewById(R.id.pick_exercises_recycler_view);
-        exerciseAdapter = new PickExerciseAdapter(new PickExerciseAdapter.ExerciseDiff());
+        exerciseAdapter = new PickExerciseAdapter(
+                new PickExerciseAdapter.ExerciseDiff(),
+                requireActivity(),
+                workoutAdapter,
+                id);
         recyclerView.setAdapter(exerciseAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 

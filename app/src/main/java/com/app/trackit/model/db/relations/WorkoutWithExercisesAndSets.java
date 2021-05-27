@@ -10,13 +10,12 @@ import java.util.List;
 
 public class WorkoutWithExercisesAndSets {
 
-
     @Embedded
     public Workout workout;
     @Relation(
             entity = PerformedExercise.class,
-            parentColumn = "id",
-            entityColumn = "workoutId"
+            parentColumn = "workoutId",
+            entityColumn = "parentWorkoutId"
     )
     public List<PerformedExerciseWithSets> performedExercises;
 

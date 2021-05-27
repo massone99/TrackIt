@@ -1,15 +1,15 @@
 package com.app.trackit.model;
 
-import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "sets")
 public class Set {
 
-    @PrimaryKey
-    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    public int setId;
     private int number;
+    public int parentPerformedExerciseId;
     private int weight;
     private int reps;
 
@@ -20,8 +20,17 @@ public class Set {
      *               Used to identify the order of the sets in
      *               a workout
      */
-    public Set(int number) {
+    public Set(int number, int parentPerformedExerciseId) {
         this.number = number;
+        this.parentPerformedExerciseId = parentPerformedExerciseId;
+    }
+
+    public int getId() {
+        return setId;
+    }
+
+    public void setId(int id) {
+       this.setId = id;
     }
 
     public void setReps(int reps) {
@@ -48,5 +57,8 @@ public class Set {
         this.number = number;
     }
 
+    public int getParentPerformedExerciseId() {
+        return parentPerformedExerciseId;
+    }
 
 }

@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/set_constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/set_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/set_number_text_view"
@@ -20,7 +30,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="1)" />
+            tools:text="1."
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/set_kg_label"
@@ -35,7 +46,7 @@
 
         <EditText
             android:id="@+id/set_kg_text_view"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,20 +68,59 @@
             app:layout_constraintStart_toEndOf="@+id/set_kg_label"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/set_time_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/tempo_sec"
+            app:layout_constraintBottom_toTopOf="@id/set_time_text_view"
+            app:layout_constraintEnd_toEndOf="@id/set_time_text_view"
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toEndOf="@+id/set_kg_label"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <EditText
             android:id="@+id/set_reps_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:autofillHints="0"
+            android:inputType="number"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/remove_set"
             app:layout_constraintStart_toEndOf="@id/set_kg_text_view"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="15"
-            android:inputType="number" />
+            tools:text="15" />
+
+        <EditText
+            android:id="@+id/set_time_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:autofillHints="0"
+            android:inputType="number"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/remove_set"
+            app:layout_constraintStart_toEndOf="@id/set_kg_text_view"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1:00" />
+
+        <ImageButton
+            android:id="@+id/remove_set"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="@color/white"
+            android:contentDescription="@string/remove_set"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/set_time_text_view"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -25,7 +25,7 @@ public class WorkoutListViewModel extends AndroidViewModel {
         workouts = repository.loadAllWorkouts();
     }
 
-    public LiveData<List<Workout>> getAllWorkouts() {
+    public LiveData<List<Workout>> getObservableWorkouts() {
         return workouts;
     }
 }

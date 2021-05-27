@@ -15,14 +15,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
 import com.app.trackit.model.viewmodel.ExercisesViewModel;
-import com.app.trackit.ui.recycler_view.adapter.ExerciseAdapter;
+import com.app.trackit.ui.recycler_view.adapter.ExerciseListAdapter;
 
 public class ExercisesFragment extends Fragment implements LifecycleOwner{
 
     private static final String TAG = "ExercisesFragment";
 
     protected RecyclerView recyclerView;
-    protected ExerciseAdapter exerciseAdapter;
+    protected ExerciseListAdapter exerciseListAdapter;
 
     private ExercisesViewModel model;
 
@@ -35,8 +35,9 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
         super.onCreate(savedInstanceState);
         model = new ViewModelProvider(this).get(ExercisesViewModel.class);
         model.getAllExercises().observe(this, exerciseList -> {
-            exerciseAdapter.submitList(exerciseList);
+            exerciseListAdapter.submitList(exerciseList);
         });
+//        Log.d(TAG, model.getAllExercises().getClass().getSimpleName());
     }
 
     @Nullable
@@ -52,8 +53,9 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
         rootView.setTag(TAG);
 
         recyclerView = rootView.findViewById(R.id.exercises_recycler_view);
-        exerciseAdapter = new ExerciseAdapter(new ExerciseAdapter.ExerciseDiff());
-        recyclerView.setAdapter(exerciseAdapter);
+        recyclerView.setHasFixedSize(true);
+        exerciseListAdapter = new ExerciseListAdapter(new ExerciseListAdapter.ExerciseDiff());
+        recyclerView.setAdapter(exerciseListAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         return rootView;
@@ -62,6 +64,6 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
     @Override
     public void onResume() {
         super.onResume();
-        exerciseAdapter.submitList(model.getAllExercises().getValue());
+        exerciseListAdapter.submitList(model.getAllExercises().getValue());
     }
 }
