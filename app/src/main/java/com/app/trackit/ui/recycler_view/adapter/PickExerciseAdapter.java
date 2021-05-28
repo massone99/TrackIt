@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.model.Exercise;
 import com.app.trackit.ui.recycler_view.viewholder.PickExerciseViewHolder;
 

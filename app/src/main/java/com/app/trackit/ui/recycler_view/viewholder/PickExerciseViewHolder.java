@@ -1,6 +1,5 @@
 package com.app.trackit.ui.recycler_view.viewholder;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +7,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.PerformedExercise;
-import com.app.trackit.model.viewmodel.WorkoutViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 public class PickExerciseViewHolder extends RecyclerView.ViewHolder {

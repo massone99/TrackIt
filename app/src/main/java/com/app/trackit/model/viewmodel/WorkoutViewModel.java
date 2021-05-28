@@ -6,12 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.model.PerformedExercise;
 import com.app.trackit.model.Set;
 import com.app.trackit.model.db.TrackItRepository;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,9 +23,22 @@ public class WorkoutViewModel extends AndroidViewModel {
     private final TrackItRepository repository;
     private LiveData<List<PerformedExercise>> exercises;
 
+    private List<Set> changes;
+
     public WorkoutViewModel(@NonNull Application application) {
         super(application);
         repository = MainActivity.repo;
+        changes = new LinkedList<>();
+    }
+
+    public void addPendingSetChanges(Set set) {
+        changes.add(set);
+    }
+
+    public void submitSetChanges() {
+        for (Set set: changes) {
+            repository.updateSet(set);
+        }
     }
 
     public LiveData<List<PerformedExercise>> getObservableExercises(int workoutId) {

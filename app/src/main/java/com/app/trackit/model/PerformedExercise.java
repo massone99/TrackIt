@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 
 @Entity(tableName = "performed_exercises")
 public class PerformedExercise {

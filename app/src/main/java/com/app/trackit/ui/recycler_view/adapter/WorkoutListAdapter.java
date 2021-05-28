@@ -44,12 +44,12 @@ public class WorkoutListAdapter extends ListAdapter<Workout, WorkoutListViewHold
 
         @Override
         public boolean areItemsTheSame(@NonNull Workout oldItem, @NonNull Workout newItem) {
-            return oldItem == newItem;
+            return oldItem.getWorkoutId() == newItem.getWorkoutId();
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Workout oldItem, @NonNull Workout newItem) {
-            return oldItem.getWorkoutId() == newItem.getWorkoutId();
+            return oldItem.getDate().equals(newItem.getDate());
         }
     }
 

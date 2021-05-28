@@ -2,10 +2,7 @@ package com.app.trackit.ui.recycler_view.adapter;
 
 import android.app.Activity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,15 +10,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.ListAdapter;
 
-import com.app.trackit.MainActivity;
-import com.app.trackit.R;
-import com.app.trackit.model.Exercise;
 import com.app.trackit.model.PerformedExercise;
-import com.app.trackit.model.Set;
 import com.app.trackit.model.viewmodel.WorkoutViewModel;
 import com.app.trackit.ui.recycler_view.viewholder.WorkoutViewHolder;
-
-import java.util.List;
 
 public class WorkoutAdapter extends ListAdapter<PerformedExercise, WorkoutViewHolder> {
 
@@ -54,7 +45,7 @@ public class WorkoutAdapter extends ListAdapter<PerformedExercise, WorkoutViewHo
         holder.bind(current.getName(), current.getPerformedExerciseId());
 
         // Managing the Sets RecyclerView
-        final SetListAdapter adapter = new SetListAdapter(new SetListAdapter.SetDiff(), activity);
+        final SetListAdapter adapter = new SetListAdapter(new SetListAdapter.SetDiff(), model);
 
         model.getSetsFromExercise(current.getPerformedExerciseId()).observe(fragment, adapter::submitList);
         Log.d(TAG, model.getSetsFromExercise(current.getPerformedExerciseId()).toString());

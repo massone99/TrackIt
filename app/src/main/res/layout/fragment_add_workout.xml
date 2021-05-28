@@ -16,9 +16,8 @@
             android:layout_margin="8dp"
             android:text="@string/add_new_workout"
             android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/black"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +34,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/new_workout_title"
-            app:layout_constraintVertical_bias="0.39"
             tools:text="Aggiungi Esercizio" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,9 +65,9 @@
         <TextView
             android:id="@+id/confirm_workout_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
             android:layout_margin="16dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="1dp"
             android:layout_marginBottom="16dp"
             android:text="@string/confirm_workout"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -91,8 +89,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/confirm_workout_button" />
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

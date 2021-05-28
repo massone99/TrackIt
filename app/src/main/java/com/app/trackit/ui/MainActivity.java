@@ -1,4 +1,4 @@
-package com.app.trackit;
+package com.app.trackit.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.app.trackit.R;
 import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.ExercisesFragment;

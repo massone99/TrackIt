@@ -9,10 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
-import com.google.android.material.card.MaterialCardView;
 
 public class ExerciseListViewHolder extends RecyclerView.ViewHolder {
 

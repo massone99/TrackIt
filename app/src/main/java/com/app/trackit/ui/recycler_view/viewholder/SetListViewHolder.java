@@ -1,25 +1,22 @@
 package com.app.trackit.ui.recycler_view.viewholder;
 
-import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.model.viewmodel.WorkoutViewModel;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
 import com.app.trackit.model.Set;
@@ -37,7 +34,9 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
     // The Set represented
     private Set currentSet;
 
-    public SetListViewHolder(@NonNull View itemView, Activity activity) {
+    private WorkoutViewModel model;
+
+    public SetListViewHolder(@NonNull View itemView, WorkoutViewModel model) {
         super(itemView);
 
         numberTextView = itemView.findViewById(R.id.set_number_text_view);
@@ -46,50 +45,9 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
         timeEdiText = itemView.findViewById(R.id.set_time_text_view);
         repsEditText = itemView.findViewById(R.id.set_reps_text_view);
 
-        weightEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
-                    set.setWeight(Integer.parseInt(weightEditText.getText().toString()));
-                    MainActivity.repo.updateSet(set);
-                    return true;
-                }
-                return false;
-            }
-        });
+        this.model = model;
 
-        repsEditText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
-                    set.setReps(Integer.parseInt(repsEditText.getText().toString()));
-                    MainActivity.repo.updateSet(set);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-        timeEdiText.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
-                    set.setReps(Integer.parseInt(timeEdiText.getText().toString()));
-                    MainActivity.repo.updateSet(set);
-                    return true;
-                }
-                return false;
-            }
-        });
-
-//        Toast.makeText(activity, "Set salvato",
-//                Toast.LENGTH_SHORT).show();
+        initTextWatchers();
 
         ImageButton removeSet = itemView.findViewById(R.id.remove_set);
         removeSet.setOnClickListener(v -> {
@@ -99,10 +57,10 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public static SetListViewHolder create(ViewGroup parent, Activity activity) {
+    public static SetListViewHolder create(ViewGroup parent, WorkoutViewModel model) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.row_item_exercise_set_reps, parent, false);
-        return new SetListViewHolder(view, activity);
+        return new SetListViewHolder(view, model);
     }
 
     public void bind(Set set) {
@@ -148,5 +106,83 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
             itemView.findViewById(R.id.set_reps_label).setVisibility(View.GONE);
             itemView.findViewById(R.id.set_reps_text_view).setVisibility(View.GONE);
         }
+    }
+
+    private void initTextWatchers() {
+        weightEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                model.addPendingSetChanges(updateWeight());
+            }
+        });
+        repsEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                model.addPendingSetChanges(updateReps());
+            }
+        });
+        timeEdiText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                model.addPendingSetChanges(updateTime());
+            }
+        });
+    }
+
+    private Set updateWeight() {
+        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+        try {
+            set.setWeight(Integer.parseInt(weightEditText.getText().toString()));
+        } catch (NumberFormatException ignored) {}
+        return set;
+    }
+
+    private Set updateReps() {
+        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+        try {
+            set.setReps(Integer.parseInt(repsEditText.getText().toString()));
+        } catch (NumberFormatException ignored) {}
+        return set;
+    }
+
+    private Set updateTime() {
+        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+        try {
+            set.setReps(Integer.parseInt(timeEdiText.getText().toString()));
+        } catch (NumberFormatException ignored) {}
+        return set;
     }
 }

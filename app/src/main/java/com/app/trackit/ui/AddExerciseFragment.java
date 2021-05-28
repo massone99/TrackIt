@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.app.trackit.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
 import com.app.trackit.model.Muscle;

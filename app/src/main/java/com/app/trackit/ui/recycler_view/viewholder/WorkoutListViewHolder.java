@@ -1,9 +1,6 @@
 package com.app.trackit.ui.recycler_view.viewholder;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.MainActivity;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.ui.AddWorkoutFragment;
 import com.google.android.material.textview.MaterialTextView;

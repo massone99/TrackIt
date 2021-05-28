@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.PerformedExercise;
 import com.app.trackit.model.Workout;
@@ -105,6 +104,7 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
+                model.submitSetChanges();
                 MainActivity.repo.confirmWorkout(workout);
                 getActivity().getSupportFragmentManager().popBackStack();
 
@@ -144,17 +144,15 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
             /*
             Memorizzare nel Db i SET (con i valori settati) e il WORKOUT
             */
+            model.submitSetChanges();
             MainActivity.repo.confirmWorkout(workout);
             getActivity().getSupportFragmentManager().popBackStack();
 
             workout.setConfirmed(1);
-//            clearBackStack();
         });
         discardButton.setOnClickListener(v -> {
             MainActivity.repo.deleteIncompleteWorkout(MainActivity.repo.getCurrentWorkout());
             getActivity().getSupportFragmentManager().popBackStack();
-
-//            clearBackStack();
         });
 
         return rootView;

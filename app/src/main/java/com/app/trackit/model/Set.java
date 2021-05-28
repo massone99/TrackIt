@@ -1,9 +1,10 @@
 package com.app.trackit.model;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "sets")
+@Entity(tableName = "sets", indices = {@Index("setId")})
 public class Set {
 
     @PrimaryKey(autoGenerate = true)
@@ -61,4 +62,11 @@ public class Set {
         return parentPerformedExerciseId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        Set set = (Set) o;
+
+        if (weight != set.weight) return false;
+        return reps == set.reps;
+    }
 }
