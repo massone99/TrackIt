@@ -18,10 +18,10 @@ public class WorkoutAdapter extends ListAdapter<PerformedExercise, WorkoutViewHo
 
     private final String TAG = "WorkoutAdapter";
 
-    private WorkoutViewModel model;
+    private final WorkoutViewModel model;
 
-    private Fragment fragment;
-    private Activity activity;
+    private final Fragment fragment;
+    private final Activity activity;
 
     public WorkoutAdapter(@NonNull DiffUtil.ItemCallback<PerformedExercise> diffCallback,
                           WorkoutViewModel model,
@@ -50,7 +50,9 @@ public class WorkoutAdapter extends ListAdapter<PerformedExercise, WorkoutViewHo
         model.getSetsFromExercise(current.getPerformedExerciseId()).observe(fragment, adapter::submitList);
         Log.d(TAG, model.getSetsFromExercise(current.getPerformedExerciseId()).toString());
 
-        holder.getRecyclerView().setLayoutManager(new LinearLayoutManager(activity));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setItemPrefetchEnabled(false);
+        holder.getRecyclerView().setLayoutManager(linearLayoutManager);
         holder.getRecyclerView().setAdapter(adapter);
     }
 

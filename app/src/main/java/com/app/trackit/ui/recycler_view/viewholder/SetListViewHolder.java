@@ -2,7 +2,6 @@ package com.app.trackit.ui.recycler_view.viewholder;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,7 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
     // The Set represented
     private Set currentSet;
 
-    private WorkoutViewModel model;
+    private final WorkoutViewModel model;
 
     public SetListViewHolder(@NonNull View itemView, WorkoutViewModel model) {
         super(itemView);
@@ -94,7 +93,7 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
 
             // To make the layout display correctly, it is needed to change
             // the constraints dynamically
-            ConstraintLayout constraintLayout = (ConstraintLayout) itemView.findViewById(R.id.set_constraint_layout);
+            ConstraintLayout constraintLayout = itemView.findViewById(R.id.set_constraint_layout);
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(constraintLayout);

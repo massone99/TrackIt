@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -13,38 +13,21 @@
             android:id="@+id/progress_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
             android:text="@string/your_progress"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/exercise_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="I tuoi progressi" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/exercise_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/your_progress"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textColor="@color/black"
-            app:layout_constraintBottom_toTopOf="@id/sparkview"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_title"
-            tools:text="I tuoi progressi" />
-
-        <com.robinhood.spark.SparkView
-            android:id="@+id/sparkview"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/progress_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/progress_title" />
+            android:layout_margin="8dp"
+            android:layout_below="@id/progress_title"
+            android:nestedScrollingEnabled="true"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>

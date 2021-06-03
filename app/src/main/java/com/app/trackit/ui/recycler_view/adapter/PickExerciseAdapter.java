@@ -15,17 +15,17 @@ public class PickExerciseAdapter extends ListAdapter<Exercise, PickExerciseViewH
 
     private final String TAG = "PickExerciseAdapter";
 
-    private int workoutId;
+    private final int workoutId;
 
-    private FragmentActivity fragmentActivity;
-    private WorkoutAdapter workoutAdapter;
+    private final FragmentActivity fragmentActivity;
+    private final WorkoutAdapter workoutAdapter;
 
     public PickExerciseAdapter(@NonNull DiffUtil.ItemCallback<Exercise> diffCallback,
                                FragmentActivity fragmentActivity,
                                WorkoutAdapter workoutAdapter,
                                int workoutId) {
         super(diffCallback);
-        this.workoutId = MainActivity.repo.getCurrentWorkout().getWorkoutId();
+        this.workoutId = workoutId;
         this.fragmentActivity = fragmentActivity;
         this.workoutAdapter = workoutAdapter;
     }
@@ -39,7 +39,7 @@ public class PickExerciseAdapter extends ListAdapter<Exercise, PickExerciseViewH
     @Override
     public void onBindViewHolder(@NonNull PickExerciseViewHolder holder, int position) {
         Exercise current = getItem(position);
-        holder.bind(current.getName(), current.getType(), current.getMovement());
+        holder.bind(current.getExerciseId(), current.getName(), current.getType(), current.getMovement());
     }
 
     public static class ExerciseDiff extends DiffUtil.ItemCallback<Exercise> {

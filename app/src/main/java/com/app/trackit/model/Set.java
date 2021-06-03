@@ -1,16 +1,16 @@
 package com.app.trackit.model;
 
 import androidx.room.Entity;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "sets", indices = {@Index("setId")})
+@Entity(tableName = "sets")
 public class Set {
 
     @PrimaryKey(autoGenerate = true)
     public int setId;
     private int number;
-    public int parentPerformedExerciseId;
+    private int parentPerformedExerciseId;
+    private int relativeExerciseId;
     private int weight;
     private int reps;
 
@@ -21,9 +21,22 @@ public class Set {
      *               Used to identify the order of the sets in
      *               a workout
      */
-    public Set(int number, int parentPerformedExerciseId) {
+    public Set(int number, int parentPerformedExerciseId, int relativeExerciseId) {
         this.number = number;
         this.parentPerformedExerciseId = parentPerformedExerciseId;
+        this.relativeExerciseId = relativeExerciseId;
+    }
+
+    public void setParentPerformedExerciseId(int parentPerformedExerciseId) {
+        this.parentPerformedExerciseId = parentPerformedExerciseId;
+    }
+
+    public int getRelativeExerciseId() {
+        return relativeExerciseId;
+    }
+
+    public void setRelativeExerciseId(int relativeExerciseId) {
+        this.relativeExerciseId = relativeExerciseId;
     }
 
     public int getId() {

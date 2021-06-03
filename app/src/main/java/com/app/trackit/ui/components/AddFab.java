@@ -1,10 +1,7 @@
 package com.app.trackit.ui.components;
 
-import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -12,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.app.trackit.R;
 import com.app.trackit.ui.AddExerciseFragment;
 import com.app.trackit.ui.AddWorkoutFragment;
+import com.app.trackit.ui.MainActivity;
 import com.app.trackit.ui.animation.FabAnimation;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

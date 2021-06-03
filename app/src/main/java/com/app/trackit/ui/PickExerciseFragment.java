@@ -25,7 +25,7 @@ public class PickExerciseFragment extends Fragment{
     protected PickExerciseAdapter exerciseAdapter;
     protected WorkoutAdapter workoutAdapter;
 
-    private int id;
+    private final int id;
 
     protected AddWorkoutFragment workoutFragment;
 

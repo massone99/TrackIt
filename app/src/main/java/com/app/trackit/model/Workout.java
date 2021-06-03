@@ -2,30 +2,24 @@ package com.app.trackit.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
+import androidx.room.Fts4;
 import androidx.room.PrimaryKey;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 @Entity(tableName = "workouts")
 public class Workout {
 
     @PrimaryKey(autoGenerate = true)
     private int workoutId;
-
-    @ColumnInfo(name = "date")
-    private String date;
-    // 0 if the workout is not confirmed, 1 otherwise
-    private int confirmed;
+    private Date date;
+    private boolean confirmed;
 
     public Workout() {
-        this.date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-        this.confirmed = 0;
+//        this.date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+        this.date = new Date();
+        this.confirmed = false;
     }
 
     public int getWorkoutId() {
@@ -36,15 +30,15 @@ public class Workout {
         this.workoutId = workoutId;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public int getConfirmed() {
+    public boolean getConfirmed() {
         return confirmed;
     }
 
@@ -52,7 +46,7 @@ public class Workout {
      * Sets the confirmed flag for this workout
      * @param confirmed is 1 if the Workout is confirmed, 0 otherwise
      */
-    public void setConfirmed(int confirmed) {
+    public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
     }
 }

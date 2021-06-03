@@ -1,6 +1,7 @@
 package com.app.trackit.model.db;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
@@ -10,17 +11,21 @@ import com.app.trackit.model.Set;
 import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.dao.ExerciseDao;
 import com.app.trackit.model.db.dao.WorkoutDao;
+import com.app.trackit.ui.MainActivity;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class TrackItRepository {
 
-    private ExerciseDao exerciseDao;
-    private WorkoutDao workoutDao;
-    private LiveData<List<Exercise>> exercises;
-    private LiveData<List<Workout>> workouts;
+    private static final String TAG = "TrackItRepository";
+
+    private final ExerciseDao exerciseDao;
+    private final WorkoutDao workoutDao;
+    private final LiveData<List<Exercise>> exercises;
+    private final LiveData<List<Workout>> workouts;
 
     public TrackItRepository(Application application) {
         TrackItDatabase db = TrackItDatabase.getDatabase(application);
@@ -28,6 +33,96 @@ public class TrackItRepository {
         workoutDao = db.workoutDao();
         exercises = exerciseDao.getAllExercises();
         workouts = workoutDao.getAll();
+    }
+
+    public void updateExercisesDate(int workoutId, Date date) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            workoutDao.updateExercisesDate(workoutId, date);
+        });
+    }
+
+    public void setConfirmWorkout(int id, boolean confirm) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            workoutDao.confirmWorkout(id, confirm);
+        });
+    }
+
+    public void setExerciseAsFavorite(int exerciseId, boolean favorite) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            exerciseDao.setExerciseAsFavorite(exerciseId, favorite);
+        });
+    }
+
+    public void updateWorkout(Workout workout) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            workoutDao.updateWorkout(workout);
+        });
+    }
+
+    public LiveData<List<Exercise>> getFavoriteExercises() {
+        return exerciseDao.getFavoritesExercises();
+    }
+
+    public boolean isExerciseFavorite(int exerciseId) {
+        try {
+            return exerciseDao.isFavorite(exerciseId).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public Exercise getExerciseFromId(int exerciseId) {
+        try {
+            return exerciseDao.getExerciseFromId(exerciseId).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updateExercise(Exercise exercise) {
+       TrackItDatabase.databaseWriteExecutor.execute(() -> {
+           exerciseDao.updateExercise(exercise);
+       });
+    }
+
+    public List<PerformedExercise> getPerformancesForExercise(int exerciseId) {
+        try {
+            return exerciseDao.getPerformancesForExercise(exerciseId).get();
+        } catch (ExecutionException e) {
+            Log.d(TAG, e.toString());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public int getBestReps(int exerciseId) {
+        try {
+            return exerciseDao.getBestReps(exerciseId).get();
+        } catch (ExecutionException | InterruptedException e) {
+            Log.d(TAG, e.toString());
+        }
+        return 0;
+    }
+
+    public Set getBestSetForReps(int performedExerciseId) {
+        try {
+            return exerciseDao.getBestSetForReps(performedExerciseId).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Set getBestSetForWeight(int performedExerciseId) {
+        try {
+            return exerciseDao.getBestSetForWeight(performedExerciseId).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public LiveData<List<Exercise>> loadAllExercises() {
@@ -75,16 +170,16 @@ public class TrackItRepository {
 
     public Exercise getExercise(String name) {
         try {
-            return exerciseDao.getExercise(name).get();
+            return exerciseDao.getExerciseFromName(name).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public PerformedExercise getPerformedExercise(int exerciseId){
+    public PerformedExercise getPerformedExercise(int performedExerciseId) {
         try {
-            return exerciseDao.getPerformedExercise(exerciseId).get();
+            return exerciseDao.getPerformedExercise(performedExerciseId).get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -100,7 +195,7 @@ public class TrackItRepository {
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
-            for (PerformedExercise ex: exercises) {
+            for (PerformedExercise ex : exercises) {
                 exerciseDao.deleteSetsFromExercise(ex.getPerformedExerciseId());
             }
             exerciseDao.deleteAllExercisesFromWorkout(workout.getWorkoutId());
@@ -118,56 +213,51 @@ public class TrackItRepository {
     }
 
     public void insertWorkout(Workout workout) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDao.insert(workout);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> workoutDao.insert(workout));
     }
 
-    public void confirmWorkout(Workout workout) {
+    public void convalidateWorkout(Workout workout) {
         // The "best" way to insert a workout is to create
         // it and add all the exercises. Then after the workout
         // is built, proceed to insert it in the DB.
         // ([Builder] pattern in future maybe)
         TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            Workout currentWorkout = MainActivity.repo.getCurrentWorkout();
+            if (currentWorkout != null) {
+                workoutDao.confirmWorkout(currentWorkout.getWorkoutId(), true);
+            }
             List<PerformedExercise> exercises = getWorkoutExercises(workout.getWorkoutId());
-            for (PerformedExercise ex: exercises) {
+            for (PerformedExercise ex : exercises) {
                 List<Set> sets = getSetsFromExercise(ex.getPerformedExerciseId());
-                for (Set set: sets) {
-                    exerciseDao.updateSet(set);
+                if (!sets.isEmpty()) {
+                    for (Set set : sets) {
+                        exerciseDao.updateSet(set);
+                    }
+                } else {
+                    exerciseDao.deletePerformedExercise(ex);
                 }
             }
-            workoutDao.confirmWorkout(workout.getWorkoutId());
         });
     }
 
     public void editWorkout(int workoutId) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDao.editWorkout(workoutId);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> workoutDao.editWorkout(workoutId));
     }
 
     public void insertExercise(Exercise exercise) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.insertExercise(exercise);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.insertExercise(exercise));
     }
 
     public void insertPerformedExercise(PerformedExercise performedExercise) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.insertPerformedExercise(performedExercise);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.insertPerformedExercise(performedExercise));
     }
 
     public void deleteWorkout(Workout workout) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            workoutDao.delete(workout);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> workoutDao.delete(workout));
     }
 
     public void deleteExercise(Exercise exercise) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.deleteExercise(exercise);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.deleteExercise(exercise));
     }
 
     public void deletePerformedExercise(PerformedExercise exercise) {
@@ -178,21 +268,15 @@ public class TrackItRepository {
     }
 
     public void insertSet(Set set) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.insertSet(set);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.insertSet(set));
     }
 
     public void deleteSet(Set set) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.deleteSet(set);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.deleteSet(set));
     }
 
     public void updateSet(Set set) {
-        TrackItDatabase.databaseWriteExecutor.execute(() -> {
-            exerciseDao.updateSet(set);
-        });
+        TrackItDatabase.databaseWriteExecutor.execute(() -> exerciseDao.updateSet(set));
     }
 
     public Set getSetFromId(int setId) {
@@ -203,5 +287,7 @@ public class TrackItRepository {
         }
         return null;
     }
+
+
 
 }

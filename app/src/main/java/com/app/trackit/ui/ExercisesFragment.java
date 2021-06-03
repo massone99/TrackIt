@@ -36,8 +36,8 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
         model = new ViewModelProvider(this).get(ExercisesViewModel.class);
         model.getAllExercises().observe(this, exerciseList -> {
             exerciseListAdapter.submitList(exerciseList);
+            exerciseListAdapter.notifyDataSetChanged();
         });
-//        Log.d(TAG, model.getAllExercises().getClass().getSimpleName());
     }
 
     @Nullable

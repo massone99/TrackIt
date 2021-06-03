@@ -2,39 +2,36 @@ package com.app.trackit.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import com.app.trackit.model.Muscle;
-
-import java.util.LinkedList;
-import java.util.List;
 
 @Entity(tableName = "exercises")
 public class Exercise {
 
-    @PrimaryKey
-    @NonNull
-    private String name;
-    private String type;
-    private String movement;
-    @Ignore
-    // The muscles worked by this exercise
-    private List<Muscle> muscles = new LinkedList<>();
+    /*
+    * FIXME:
+    *  controllare che i form non abbiano valori vuoti nei nomi degli esercizi
+    *  --> anche per Workout
+    * */
 
-    public static enum TYPE{
-        RIPETIZIONI,
-        TEMPO
-    }
+    @PrimaryKey(autoGenerate = true)
+    private int exerciseId;
+    @NonNull
+    private final String name;
+    private final String type;
+    private final String movement;
+    private final String muscle;
+    private boolean favourite;
 
     public Exercise(@NonNull String name,
                     String type,
-                    String movement){
+                    String movement, String muscle){
         this.name = name;
         this.movement = movement;
         this.type = type;
+        this.muscle = muscle;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
@@ -47,20 +44,39 @@ public class Exercise {
         return movement;
     }
 
-    /**
-     * Gets all muscles used by this exercise
-     * @return the List of muscles
-     */
-    public List<Muscle> getMuscles() {
-        return muscles;
+    public String getMuscle() {
+        return muscle;
     }
 
-    /**
-     * Sets the muscles used by this exercise
-     * @param muscles are the muscles involved in the exercise
-     */
-    public void setMuscles(List<Muscle> muscles) {
-        this.muscles = muscles;
+    public int getExerciseId() {
+        return exerciseId;
     }
 
+    public void setExerciseId(int exerciseId) {
+        this.exerciseId = exerciseId;
+    }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Exercise exercise = (Exercise) o;
+
+        if (exerciseId != exercise.exerciseId) return false;
+        if (favourite != exercise.favourite) return false;
+        if (!name.equals(exercise.name)) return false;
+        if (type != null ? !type.equals(exercise.type) : exercise.type != null) return false;
+        if (movement != null ? !movement.equals(exercise.movement) : exercise.movement != null)
+            return false;
+        return muscle != null ? muscle.equals(exercise.muscle) : exercise.muscle == null;
+    }
 }

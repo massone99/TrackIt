@@ -7,12 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.app.trackit.model.Workout;
+import com.app.trackit.model.viewmodel.WorkoutViewModel;
 import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.ui.AddWorkoutFragment;
 import com.google.android.material.textview.MaterialTextView;
+
+import java.text.SimpleDateFormat;
 
 public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,11 +27,15 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
     private boolean edit;
     private final MaterialTextView workoutTextView;
 
+    private WorkoutViewModel model;
+
     public WorkoutListViewHolder(@NonNull View itemView) {
         super(itemView);
         AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
+        model = new ViewModelProvider(activity).get(WorkoutViewModel.class);
         workoutTextView = itemView.findViewById(R.id.home_item_text_view);
         workoutTextView.setOnClickListener(v -> {
+            model.editWorkout();
             edit = true;
             Bundle bundle = new Bundle();
             bundle.putBoolean("edit", true);
@@ -56,11 +65,10 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(int workoutId) {
         try {
-            String title = edit ?
-                    "Allenamento del " + MainActivity.repo.getWorkoutFromId(workoutId).getDate() + " [IN CORSO]":
-                    "Allenamento del " + MainActivity.repo.getWorkoutFromId(workoutId).getDate();
 
-            workoutTextView.setText(title);
+            Workout workout = model.getWorkoutFromId(workoutId);
+
+            workoutTextView.setText("Workout del " + new SimpleDateFormat("dd/MM/yyyy").format(workout.getDate()));
             this.workoutId = workoutId;
         } catch (NullPointerException ignored) { }
     }

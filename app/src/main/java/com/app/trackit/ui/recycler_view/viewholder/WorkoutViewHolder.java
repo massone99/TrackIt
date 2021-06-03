@@ -21,7 +21,7 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder{
     private final TextView nameTextView;
     private final RecyclerView recyclerView;
 
-    private int exerciseId;
+    private int performedExerciseId;
 
     public WorkoutViewHolder(@NonNull View itemView,
                              WorkoutViewModel model) {
@@ -31,21 +31,24 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder{
 
         final TextView addSet = itemView.findViewById(R.id.workout_exercise_item_add_set);
         addSet.setOnClickListener(v -> {
-            Set set = new Set(model.getNextSetValueForExercise(exerciseId), exerciseId);
+            Set set = new Set(model.getNextSetValueForExercise(performedExerciseId),
+                    performedExerciseId, model.getExerciseIdFromPerformed(performedExerciseId));
             MainActivity.repo.insertSet(set);
         });
 
         final ImageButton removeButton = itemView.findViewById(R.id.remove_exercise);
 
         removeButton.setOnClickListener(v -> {
-            MainActivity.repo.deletePerformedExercise(MainActivity.repo.getPerformedExercise(exerciseId));
+            MainActivity.repo.deletePerformedExercise(MainActivity.repo.getPerformedExercise(performedExerciseId));
+//            (requireContext() as Activity).currentFocus?.clearFocus()
+            itemView.clearFocus();
         });
 
     }
 
     public void bind(String name, int exerciseId) {
         nameTextView.setText(name);
-        this.exerciseId = exerciseId;
+        this.performedExerciseId = exerciseId;
     }
 
     public RecyclerView getRecyclerView() {

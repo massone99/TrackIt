@@ -6,6 +6,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import com.app.trackit.model.Exercise;
@@ -15,70 +16,97 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Single;
+
 @Dao
 public interface ExerciseDao {
 
+    // Main Operations
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertExercise(Exercise exercise);
+    void insertExercise(Exercise exercise);
 
     @Insert
-    public void insertPerformedExercise(PerformedExercise performedExercise);
+    void insertPerformedExercise(PerformedExercise performedExercise);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertSet(Set set);
+    void insertSet(Set set);
 
     @Delete
-    public void deleteExercise(Exercise exercise);
+    void deleteExercise(Exercise exercise);
 
     @Delete
-    public void deletePerformedExercise(PerformedExercise performedExercise);
+    void deletePerformedExercise(PerformedExercise performedExercise);
 
     @Delete
-    public void deleteSet(Set set);
+    void deleteSet(Set set);
 
     @Update
-    public void updateExercise(Exercise exercise);
+    void updateExercise(Exercise exercise);
+
+    @Query("UPDATE exercises SET favourite = :favorite WHERE exerciseId = :exerciseId")
+    void setExerciseAsFavorite(int exerciseId, boolean favorite);
+
+    @Query("SELECT favourite FROM exercises WHERE exerciseId = :exerciseId")
+    ListenableFuture<Boolean> isFavorite(int exerciseId);
+
+    @Query("SELECT * FROM exercises WHERE favourite = 1")
+    LiveData<List<Exercise>> getFavoritesExercises();
 
     @Update
-    public void updatePerformedExercise(PerformedExercise performedExercise);
+    void updatePerformedExercise(PerformedExercise performedExercise);
 
     @Update
-    public void updateSet(Set set);
+    void updateSet(Set set);
+
+    // Return value queries
 
     @Query("select * from sets where setId = :id")
-    public ListenableFuture<Set> getSetFromId(int id);
-
-    // TODO:
-    // Dovrei aggiungere metodi per ottenere gli esercizi fatti in
-    // un determinato workout. Gli esercizi fatti in un workout sono
-    // identificati dall'id del workout in quanto chiave foreign nell'esercizio
+    ListenableFuture<Set> getSetFromId(int id);
 
     @Query("SELECT * from performed_exercises where parentWorkoutId = :id")
-    public LiveData<List<PerformedExercise>> getObservableExercisesFromWorkout(int id);
+    LiveData<List<PerformedExercise>> getObservableExercisesFromWorkout(int id);
 
     @Query("SELECT * from performed_exercises where parentWorkoutId = :id")
-    public ListenableFuture<List<PerformedExercise>> getExercisesFromWorkout(int id);
+    ListenableFuture<List<PerformedExercise>> getExercisesFromWorkout(int id);
 
     @Query("SELECT * from sets where parentPerformedExerciseId = :id")
-    public LiveData<List<Set>> getObservableSetsFromExercise(int id);
+    LiveData<List<Set>> getObservableSetsFromExercise(int id);
+
+    @Query("SELECT * from sets where parentPerformedExerciseId = :performedExerciseId " +
+            "and  reps = (select max(reps) from sets where parentPerformedExerciseId = :performedExerciseId)")
+    ListenableFuture<Set> getBestSetForReps(int performedExerciseId);
+
+    @Query("SELECT * from sets where parentPerformedExerciseId = :performedExerciseId " +
+            "and  weight = (select max(weight) from sets where parentPerformedExerciseId = :performedExerciseId)")
+    ListenableFuture<Set> getBestSetForWeight(int performedExerciseId);
+
+    @Query("select max(reps) from sets where relativeExerciseId = :exerciseId")
+    ListenableFuture<Integer> getBestReps(int exerciseId);
 
     @Query("SELECT * from sets where parentPerformedExerciseId = :id")
-    public ListenableFuture<List<Set>> getSetsFromExercise(int id);
+    ListenableFuture<List<Set>> getSetsFromExercise(int id);
 
     @Query("DELETE from sets where parentPerformedExerciseId = :id")
-    public void deleteSetsFromExercise(int id);
+    void deleteSetsFromExercise(int id);
 
     @Query("DELETE from performed_exercises where parentWorkoutId = :id")
-    public void deleteAllExercisesFromWorkout(int id);
+    void deleteAllExercisesFromWorkout(int id);
 
     @Query("SELECT * from exercises where name = :name")
-    public ListenableFuture<Exercise> getExercise(String name);
+    ListenableFuture<Exercise> getExerciseFromName(String name);
+
+    @Query("SELECT * from exercises where exerciseId = :exerciseId")
+    ListenableFuture<Exercise> getExerciseFromId(int exerciseId);
 
     @Query("SELECT * from performed_exercises where performedExerciseId = :id")
-    public ListenableFuture<PerformedExercise> getPerformedExercise(int id);
+    ListenableFuture<PerformedExercise> getPerformedExercise(int id);
+
+    @Query("select * from performed_exercises where parentExerciseId = :id")
+    ListenableFuture<List<PerformedExercise>> getPerformancesForExercise(int id);
 
     @Query("SELECT * from exercises")
-    public LiveData<List<Exercise>> getAllExercises();
+    LiveData<List<Exercise>> getAllExercises();
 
 
 }

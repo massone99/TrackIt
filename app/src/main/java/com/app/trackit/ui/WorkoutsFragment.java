@@ -1,7 +1,6 @@
 package com.app.trackit.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import com.app.trackit.ui.recycler_view.adapter.WorkoutListAdapter;
 
 import java.util.Collections;
 
-public class HomeFragment extends Fragment implements LifecycleOwner {
+public class WorkoutsFragment extends Fragment implements LifecycleOwner {
 
     private static final String TAG = "HomeFragment";
 
@@ -32,8 +31,8 @@ public class HomeFragment extends Fragment implements LifecycleOwner {
 
     private WorkoutListViewModel model;
 
-    public HomeFragment() {
-        super(R.layout.fragment_home);
+    public WorkoutsFragment() {
+        super(R.layout.fragment_workouts);
     }
 
     @Override
@@ -48,12 +47,12 @@ public class HomeFragment extends Fragment implements LifecycleOwner {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_workouts, container, false);
         rootView.setTag(TAG);
 
         model.getObservableWorkouts().observe(getViewLifecycleOwner(), workouts -> {
-            Collections.reverse(workouts);
             workoutListAdapter.submitList(workouts);
+            workoutListAdapter.notifyDataSetChanged();
         });
 
         // FIXME: put this button inside the other fragments too
@@ -73,6 +72,8 @@ public class HomeFragment extends Fragment implements LifecycleOwner {
 
         workoutListAdapter = new WorkoutListAdapter(new WorkoutListAdapter.WorkoutDiff(), getActivity());
         recyclerView.setAdapter(workoutListAdapter);
+
+//        Log.d(TAG, String.valueOf(MainActivity.repo.getBestSetForReps(1).getReps()));
 
         return rootView;
     }

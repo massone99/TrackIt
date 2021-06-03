@@ -12,25 +12,26 @@ import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.relations.WorkoutWithExercisesAndSets;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
 public interface WorkoutDao {
 
     @Insert
-    public void insert(Workout workout);
+    void insert(Workout workout);
 
     @Delete
-    public void delete(Workout workout);
+    void delete(Workout workout);
 
     @Update
-    public void updateWorkout(Workout workout);
+    void updateWorkout(Workout workout);
 
-    @Query("UPDATE workouts SET confirmed = 1 WHERE workoutId = :id")
-    public void confirmWorkout(int id);
+    @Query("UPDATE workouts SET confirmed = :confirm WHERE workoutId = :id")
+    void confirmWorkout(int id, boolean confirm);
 
     @Query("UPDATE workouts SET confirmed = 0 WHERE workoutId = :id")
-    public void editWorkout(int id);
+    void editWorkout(int id);
 
     @Query("SELECT * FROM workouts")
     LiveData<List<Workout>> getAll();
@@ -40,10 +41,13 @@ public interface WorkoutDao {
 
     @Transaction
     @Query("SELECT * FROM workouts")
-    public List<WorkoutWithExercisesAndSets> getWorkoutsWithExercisesAndSets();
+    List<WorkoutWithExercisesAndSets> getWorkoutsWithExercisesAndSets();
 
     @Transaction
     @Query("select * from workouts where confirmed = 0")
-    public ListenableFuture<Workout> getCurrentWorkout();
+    ListenableFuture<Workout> getCurrentWorkout();
+
+    @Query("UPDATE performed_exercises SET date = :date WHERE parentWorkoutId = :parentWorkoutId")
+    void updateExercisesDate(int parentWorkoutId, Date date);
 
 }

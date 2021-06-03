@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ExercisesViewModel extends AndroidViewModel {
 
-    private TrackItRepository repository;
+    private final TrackItRepository repository;
 
     private final LiveData<List<Exercise>> exercises;
 
@@ -25,6 +25,10 @@ public class ExercisesViewModel extends AndroidViewModel {
 
     public LiveData<List<Exercise>> getAllExercises() {
         return exercises;
+    }
+
+    public boolean isFavorite(Exercise exercise) {
+        return repository.isExerciseFavorite(exercise.getExerciseId());
     }
 
     // FIXME:

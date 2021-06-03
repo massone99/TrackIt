@@ -1,6 +1,5 @@
 package com.app.trackit.ui.recycler_view.adapter;
 
-import android.app.Activity;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,7 +15,7 @@ public class SetListAdapter extends ListAdapter<Set, SetListViewHolder> {
     // TODO: fare in modo che indice del nuovo set da aggiungere venga
     //  ricordato magari tramite Bundle del fragment
 
-    private WorkoutViewModel model;
+    private final WorkoutViewModel model;
 
     public SetListAdapter(@NonNull DiffUtil.ItemCallback<Set> diffCallback, WorkoutViewModel model) {
         super(diffCallback);

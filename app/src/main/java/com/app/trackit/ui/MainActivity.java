@@ -2,6 +2,7 @@ package com.app.trackit.ui;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,8 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.app.trackit.R;
 import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.model.db.TrackItRepository;
-import com.app.trackit.ui.ExercisesFragment;
-import com.app.trackit.ui.HomeFragment;
 import com.app.trackit.ui.components.AddFab;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -23,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     public static TrackItRepository repo;
 
     protected AddFab fab;
+    private BottomNavigationView navigationView;
 
     public MainActivity() {
         super(R.layout.activity_main);
@@ -35,28 +35,27 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         if (savedInstanceState == null) {
             WorkoutListViewModel model = new ViewModelProvider(this).get(WorkoutListViewModel.class);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            HomeFragment homeFragment = new HomeFragment();
-            transaction.replace(R.id.fragment_container_view, homeFragment);
+            WorkoutsFragment workoutsFragment = new WorkoutsFragment();
+            transaction.replace(R.id.fragment_container_view, workoutsFragment);
             transaction.commit();
 
-            BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);
+            navigationView = findViewById(R.id.bottom_navigation);
             navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment fragment = null;
 
+                    getSupportFragmentManager().popBackStack();
                     switch (item.getItemId()) {
                         case R.id.workouts_page:
-                            fragment = new HomeFragment();
+                            fragment = new WorkoutsFragment();
                             break;
-
                         case R.id.exercises_page:
                             fragment = new ExercisesFragment();
                             break;
-
                         case R.id.progress_page:
+                            fragment = new ProgressFragment();
                             break;
-
                         case R.id.photos_page:
                             break;
                     }
@@ -80,5 +79,9 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
     public void hideFab() {
         this.fab.hide();
+    }
+
+    public void hideNav() {
+        navigationView.setVisibility(View.GONE);
     }
 }
