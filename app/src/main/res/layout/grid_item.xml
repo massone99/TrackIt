@@ -1,25 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:id="@+id/grid_card"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
     android:padding="2dp">
 
-    <ImageView
-        android:id="@+id/grid_image"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
-        android:layout_centerHorizontal="true"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher" />
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/grid_image_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/grid_image"
-        android:textColor="@color/black"
-        android:layout_centerHorizontal="true"
-        android:text="Name"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/grid_image"
+            android:layout_width="match_parent"
+            android:layout_height="175dp"
+            android:layout_centerHorizontal="true"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/grid_image_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/grid_image"
+            android:textColor="@color/black"
+            android:layout_centerHorizontal="true"
+            android:text="Name"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close"
+            android:layout_alignParentEnd="true"
+            android:background="@color/red_500"/>
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

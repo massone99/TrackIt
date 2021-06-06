@@ -3,13 +3,11 @@
 import android.app.Application;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
@@ -20,10 +18,6 @@ import com.app.trackit.model.Photo;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.MainActivity;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class PhotosViewModel extends AndroidViewModel {
@@ -50,8 +44,16 @@ public class PhotosViewModel extends AndroidViewModel {
         return repository.getLastPhoto();
     }
 
-    public LiveData<List<Photo>> getAllByDate() {
-        return repository.getAllPhotosByDate();
+    public Photo getPhotoFromUri(Uri uri) {
+        return repository.getPhotoFromUri(uri);
+    }
+
+    public LiveData<List<Photo>> getObservablePhotos() {
+        return repository.getObservablePhotos();
+    }
+
+    public List<Photo> getPhotos() {
+        return repository.getPhotos();
     }
 
     public void deletePhoto(Photo photo) {

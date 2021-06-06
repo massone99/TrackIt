@@ -1,6 +1,7 @@
 package com.app.trackit.model.db;
 
 import android.app.Application;
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -62,8 +63,26 @@ public class TrackItRepository {
         return null;
     }
 
-    public LiveData<List<Photo>> getAllPhotosByDate() {
+    public Photo getPhotoFromUri(Uri uri) {
+        try {
+            return photoDao.getPhotoFromUri(uri).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public LiveData<List<Photo>> getObservablePhotos() {
         return photoDao.getAllByDate();
+    }
+
+    public List<Photo> getPhotos() {
+        try {
+            return photoDao.getPhotos().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void updateExercisesDate(int workoutId, Date date) {
