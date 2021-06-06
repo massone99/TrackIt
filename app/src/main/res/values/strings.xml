@@ -46,6 +46,7 @@
     <string name="remove_set">Rimuovi set</string>
     <string name="tempo_sec">Tempo(sec)</string>
     <string name="your_progress">I tuoi progressi</string>
+    <string name="your_photos">Le tue foto</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

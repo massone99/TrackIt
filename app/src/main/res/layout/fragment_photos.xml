@@ -1,18 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="650dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/photos_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/your_photos"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textColor="@color/black" />
+
 
         <GridView
             android:id="@+id/grid_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="550dp"
+            android:layout_below="@id/photos_title"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:horizontalSpacing="8dp"
-            android:numColumns="4"
-            android:verticalSpacing="8dp"/>
+            android:numColumns="2"
+            android:verticalSpacing="8dp" />
+
+<!--        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/photos_title"
+            android:rotation="90"/>-->
+
+        <Button
+            android:id="@+id/take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Scatta una foto"/>
 
     </RelativeLayout>
 

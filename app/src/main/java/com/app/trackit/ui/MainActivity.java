@@ -1,5 +1,7 @@
 package com.app.trackit.ui;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.app.trackit.R;
+import com.app.trackit.model.viewmodel.PhotosViewModel;
 import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.components.AddFab;
@@ -21,7 +24,9 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
 
     public static TrackItRepository repo;
 
-    protected AddFab fab;
+    private PhotosViewModel photosViewModel;
+
+    private AddFab fab;
     private BottomNavigationView navigationView;
 
     public MainActivity() {
@@ -32,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         repo = new TrackItRepository(getApplication());
+        photosViewModel = new ViewModelProvider(this).get(PhotosViewModel.class);
         if (savedInstanceState == null) {
             WorkoutListViewModel model = new ViewModelProvider(this).get(WorkoutListViewModel.class);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
                             fragment = new ProgressFragment();
                             break;
                         case R.id.photos_page:
+                            fragment = new PhotosFragment();
                             break;
                     }
 
@@ -65,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
             });
         }
     }
+
+    /*@Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PhotosFragment.REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if (extras != null) {
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                photosViewModel.setBitmap(imageBitmap);
+            }
+        }
+    }*/
 
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {

@@ -7,9 +7,11 @@ import androidx.lifecycle.LiveData;
 
 import com.app.trackit.model.Exercise;
 import com.app.trackit.model.PerformedExercise;
+import com.app.trackit.model.Photo;
 import com.app.trackit.model.Set;
 import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.dao.ExerciseDao;
+import com.app.trackit.model.db.dao.PhotoDao;
 import com.app.trackit.model.db.dao.WorkoutDao;
 import com.app.trackit.ui.MainActivity;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -24,15 +26,44 @@ public class TrackItRepository {
 
     private final ExerciseDao exerciseDao;
     private final WorkoutDao workoutDao;
+    private final PhotoDao photoDao;
     private final LiveData<List<Exercise>> exercises;
     private final LiveData<List<Workout>> workouts;
+//    private final LiveData<List<Photo>> photos;
 
     public TrackItRepository(Application application) {
         TrackItDatabase db = TrackItDatabase.getDatabase(application);
         exerciseDao = db.exerciseDao();
         workoutDao = db.workoutDao();
+        photoDao = db.photoDao();
         exercises = exerciseDao.getAllExercises();
         workouts = workoutDao.getAll();
+//        photos = photoDao.getAllByDate();
+    }
+
+    public void addPhoto(Photo photo) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            photoDao.insertPhoto(photo);
+        });
+    }
+
+    public void deletePhoto(Photo photo) {
+        TrackItDatabase.databaseWriteExecutor.execute(() -> {
+            photoDao.deletePhoto(photo);
+        });
+    }
+
+    public Photo getLastPhoto() {
+        try {
+            return photoDao.getLastPhoto().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public LiveData<List<Photo>> getAllPhotosByDate() {
+        return photoDao.getAllByDate();
     }
 
     public void updateExercisesDate(int workoutId, Date date) {

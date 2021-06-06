@@ -8,10 +8,12 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
 import com.app.trackit.model.PerformedExercise;
+import com.app.trackit.model.Photo;
 import com.app.trackit.model.Set;
 import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.dao.ExerciseDao;
 import com.app.trackit.model.Exercise;
+import com.app.trackit.model.db.dao.PhotoDao;
 import com.app.trackit.model.db.dao.WorkoutDao;
 import com.app.trackit.model.db.relations.PerformedExerciseSetCrossRef;
 
@@ -23,13 +25,15 @@ import java.util.concurrent.Executors;
         Workout.class,
         Set.class,
         PerformedExercise.class,
-        PerformedExerciseSetCrossRef.class},
+        PerformedExerciseSetCrossRef.class,
+        Photo.class},
         version = 1)
 @TypeConverters({Converters.class})
 public abstract class TrackItDatabase extends RoomDatabase {
 
     public abstract ExerciseDao exerciseDao();
     public abstract WorkoutDao workoutDao();
+    public abstract PhotoDao photoDao();
 
     private static volatile TrackItDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;

@@ -7,12 +7,6 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "exercises")
 public class Exercise {
 
-    /*
-    * FIXME:
-    *  controllare che i form non abbiano valori vuoti nei nomi degli esercizi
-    *  --> anche per Workout
-    * */
-
     @PrimaryKey(autoGenerate = true)
     private int exerciseId;
     @NonNull
