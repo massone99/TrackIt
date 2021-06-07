@@ -28,6 +28,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
 
@@ -56,6 +57,7 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
         // By the way, the memorization on the database should happen only
         // after the "Confirm Workout" button is pressed
         model = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
+        model.emptySetChanges();
 //        Here we convert the current date in millis to the dd-mm-yyyy format
 //        and then convert it to a String so it can be stored in the DB
         boolean edit;
@@ -111,7 +113,7 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
         exercisesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         titleEditText = rootView.findViewById(R.id.new_workout_title);
-        titleEditText.setText(new SimpleDateFormat("dd/MM/yyyy").format(workout.getDate()));
+        titleEditText.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(workout.getDate()));
 
         confirmButton = rootView.findViewById(R.id.confirm_workout_button);
         MaterialTextView discardButton = rootView.findViewById(R.id.discard_workout_button);
@@ -139,7 +141,6 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
             model.submitSetChanges();
         });
         confirmButton.setOnClickListener(v -> {
-
             saveWorkout();
         });
 
@@ -199,6 +200,7 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
         Workout currentWorkout = MainActivity.repo.getCurrentWorkout();
         if (currentWorkout != null) {
             model.submitSetChanges();
+
             String dateString = titleEditText.getText().toString();
             if (dateString.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")) {
                 Log.d(TAG, dateString);
@@ -215,9 +217,9 @@ public class AddWorkoutFragment extends Fragment implements LifecycleOwner {
                 model.updateWorkout(currentWorkout);
                 model.updateExercisesDate(currentWorkout.getWorkoutId(), currentWorkout.getDate());
             }
-
-            MainActivity.repo.convalidateWorkout(currentWorkout);
+            model.convalidateWorkout(currentWorkout);
             workout.setConfirmed(true);
+            MainActivity.hideKeyboard(getActivity());
             getActivity().getSupportFragmentManager().popBackStack();
         }
     }

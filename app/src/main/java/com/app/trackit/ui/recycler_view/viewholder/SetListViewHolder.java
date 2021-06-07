@@ -111,13 +111,11 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
         weightEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                model.addPendingSetChanges(updateWeight());
             }
 
             @Override
@@ -128,13 +126,11 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
         repsEditText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                model.addPendingSetChanges(updateReps());
             }
 
             @Override
@@ -145,14 +141,10 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
         timeEdiText.addTextChangedListener(new TextWatcher() {
 
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -162,26 +154,26 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
     }
 
     private Set updateWeight() {
-        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+//        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
         try {
-            set.setWeight(Integer.parseInt(weightEditText.getText().toString()));
+            currentSet.setWeight(Integer.parseInt(weightEditText.getText().toString()));
         } catch (NumberFormatException ignored) {}
-        return set;
+        return currentSet;
     }
 
     private Set updateReps() {
-        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+//        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
         try {
-            set.setReps(Integer.parseInt(repsEditText.getText().toString()));
+            currentSet.setReps(Integer.parseInt(repsEditText.getText().toString()));
         } catch (NumberFormatException ignored) {}
-        return set;
+        return currentSet;
     }
 
     private Set updateTime() {
-        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+//        Set set = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
         try {
-            set.setReps(Integer.parseInt(timeEdiText.getText().toString()));
+            currentSet.setReps(Integer.parseInt(timeEdiText.getText().toString()));
         } catch (NumberFormatException ignored) {}
-        return set;
+        return currentSet;
     }
 }

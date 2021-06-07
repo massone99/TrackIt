@@ -43,7 +43,9 @@ public class PhotoAdapter extends ListAdapter<Photo, PhotoViewHolder> {
         Photo currentPhoto = getItem(position);
         holder.bind(new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
                 .format(currentPhoto.getTimeStamp()));
-        Log.d(TAG, currentPhoto.getUri().toString());
+        holder.getDeleteButton().setOnClickListener(v -> {
+            photosViewModel.deletePhoto(currentPhoto);
+        });
         Glide.with(activity)
                 .load(currentPhoto.getUri())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)

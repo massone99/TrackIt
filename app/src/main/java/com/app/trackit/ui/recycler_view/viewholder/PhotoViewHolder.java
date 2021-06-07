@@ -3,6 +3,8 @@ package com.app.trackit.ui.recycler_view.viewholder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +21,7 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
     private final ImageView imageView;
     private final TextView textView;
+    private final ImageButton deleteButton;
 
     public PhotoViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -26,6 +29,7 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
         AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
         this.textView = (TextView) itemView.findViewById(R.id.grid_image_title);
         this.imageView = (ImageView) itemView.findViewById(R.id.grid_image);
+        this.deleteButton = (ImageButton) itemView.findViewById(R.id.delete_photo);
     }
 
     public void bind(String imageTitle) {
@@ -44,5 +48,9 @@ public class PhotoViewHolder extends RecyclerView.ViewHolder {
 
     public ImageView getImageView() {
         return imageView;
+    }
+
+    public ImageButton getDeleteButton() {
+        return deleteButton;
     }
 }

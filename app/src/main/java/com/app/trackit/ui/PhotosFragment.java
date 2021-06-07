@@ -44,11 +44,10 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
     private final String TAG = "PhotosFragment";
     private File directory;
 
-    private GridView gridView;
-    private Button takePhoto;
-
     private RecyclerView recyclerView;
     private PhotoAdapter photoAdapter;
+
+    private Button deleteButton;
 
     private PhotosViewModel photosViewModel;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -69,12 +68,6 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Uri imageUri = photosViewModel.getLastPhoto().getUri();
-//                        try {
-//                            photosViewModel.setBitmap(MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), imageUri));
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
                         try {
                             photosViewModel.addPhoto(
                                     new Photo(new SimpleDateFormat("ddMMyyyy", Locale.ITALY).parse(timestamp),
@@ -100,14 +93,13 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
         super.onViewCreated(view, savedInstanceState);
 
         recyclerView = view.findViewById(R.id.grid_view);
-
         photoAdapter = new PhotoAdapter(new PhotoAdapter.PhotoDiff());
 
         recyclerView.setAdapter(photoAdapter);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
 
-        takePhoto = view.findViewById(R.id.take_photo);
+        Button takePhoto = view.findViewById(R.id.take_photo);
         takePhoto.setOnClickListener(v -> {
             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 

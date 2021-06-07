@@ -1,6 +1,7 @@
 package com.app.trackit.model.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,7 +11,6 @@ import com.app.trackit.model.Exercise;
 import com.app.trackit.model.PerformedExercise;
 import com.app.trackit.model.Set;
 import com.app.trackit.model.Workout;
-import com.app.trackit.model.db.TrackItDatabase;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.MainActivity;
 
@@ -21,8 +21,10 @@ import java.util.stream.Collectors;
 
 public class WorkoutViewModel extends AndroidViewModel {
 
+    private static final String TAG= "WorkoutViewModel";
+
     private final TrackItRepository repository;
-    private final List<Set> changes;
+    private List<Set> changes;
     private int workoutId;
     private LiveData<List<PerformedExercise>> exercises;
 
@@ -37,11 +39,15 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public Workout getWorkoutFromId(int workoutId) {
-       return repository.getWorkoutFromId(workoutId);
+        return repository.getWorkoutFromId(workoutId);
+    }
+
+    public void insertExercise(Exercise exercise) {
+        repository.insertExercise(exercise);
     }
 
     public boolean isExerciseFavorite(int exerciseId) {
-       return repository.isExerciseFavorite(exerciseId);
+        return repository.isExerciseFavorite(exerciseId);
     }
 
     public void editWorkout() {
@@ -51,13 +57,22 @@ public class WorkoutViewModel extends AndroidViewModel {
         }
     }
 
+    public void convalidateWorkout(Workout workout) {
+        repository.convalidateWorkout(workout);
+    }
+
     public void addPendingSetChanges(Set set) {
         changes.add(set);
+        /*for (Set s : changes) {
+            Log.d(TAG, "SetID: " + String.valueOf(s.getReps()));
+            Log.d(TAG, "Reps: " + String.valueOf(s.getReps()));
+            Log.d(TAG, "Weight: " + String.valueOf(s.getWeight()));
+        }*/
     }
 
     public void submitSetChanges() {
         for (Set set : changes) {
-            repository.updateSet(set);
+            repository.insertSet(set);
         }
     }
 
@@ -119,4 +134,7 @@ public class WorkoutViewModel extends AndroidViewModel {
         }
     }
 
+    public void emptySetChanges() {
+        changes = new LinkedList<>();
+    }
 }

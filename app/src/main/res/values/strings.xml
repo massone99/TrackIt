@@ -12,7 +12,7 @@
     <string name="neck">Collo</string>
     <string name="shoulders">Spalle</string>
     <string name="arms">Braccia</string>
-    <string name="forearms">Avambracci</string>
+    <string name="forearms">Avambraccia</string>
     <string name="back">Dorso</string>
     <string name="chest">Petto</string>
     <string name="waist">Addome</string>
@@ -47,6 +47,8 @@
     <string name="tempo_sec">Tempo(sec)</string>
     <string name="your_progress">I tuoi progressi</string>
     <string name="your_photos">Le tue foto</string>
+    <string name="delete_photo">Cancella foto</string>
+    <string name="your_photo">Your photo</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

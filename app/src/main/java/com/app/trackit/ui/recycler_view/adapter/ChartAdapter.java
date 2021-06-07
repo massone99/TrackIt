@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -76,7 +77,7 @@ public class ChartAdapter extends ListAdapter<Exercise, ChartViewHolder> {
         for(Long date: repsOverDays.keySet()) {
             int val = repsOverDays.get(date);
             repsValues.add(new Entry(date, val));
-            Log.d(TAG, new SimpleDateFormat("dd/MM").format(new Date((long) date * 1000)));
+            Log.d(TAG, new SimpleDateFormat("dd/MM", Locale.ITALY).format(new Date((long) date * 1000)));
         }
 
         for(Long date: weightOverDays.keySet()) {

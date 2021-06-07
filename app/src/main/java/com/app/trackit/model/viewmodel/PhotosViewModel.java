@@ -18,6 +18,7 @@ import com.app.trackit.model.Photo;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.MainActivity;
 
+import java.io.File;
 import java.util.List;
 
 public class PhotosViewModel extends AndroidViewModel {
@@ -57,6 +58,8 @@ public class PhotosViewModel extends AndroidViewModel {
     }
 
     public void deletePhoto(Photo photo) {
+        File image = new File(photo.getUri().getPath());
+        image.delete();
         repository.deletePhoto(photo);
     }
 

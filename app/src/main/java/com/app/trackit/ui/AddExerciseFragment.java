@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -18,14 +20,13 @@ import androidx.lifecycle.ViewModelProvider;
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
 import com.app.trackit.model.viewmodel.WorkoutViewModel;
-import com.github.ivbaranov.mfb.MaterialFavoriteButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ExecutorService;
 
 public class AddExerciseFragment extends Fragment {
 
@@ -38,6 +39,8 @@ public class AddExerciseFragment extends Fragment {
     private View rootView;
 
     private WorkoutViewModel model;
+
+    private Exercise pendingExercise;
 
     public AddExerciseFragment() {
         super(R.layout.fragment_add_exercise);
@@ -73,6 +76,7 @@ public class AddExerciseFragment extends Fragment {
             textView.setText("Modifica Esercizio");
 
             Exercise exercise = model.getExerciseFromId(getArguments().getInt("exerciseId"));
+            model.deleteExercise(exercise);
             int typeId;
             int movementId;
             exerciseNameEditText.setText(exercise.getName());
@@ -81,6 +85,41 @@ public class AddExerciseFragment extends Fragment {
             } else {
                 typeId = R.id.isometric_radio;
             }
+
+            Log.d(TAG, exercise.getMuscle());
+            switch (exercise.getMuscle()) {
+                case "Collo":
+                    musclesChipGroup.check(R.id.neck);
+                    break;
+                case "Spalle":
+                    musclesChipGroup.check(R.id.shoulders);
+                    break;
+                case "Braccia":
+                    musclesChipGroup.check(R.id.arms);
+                    break;
+                case "Avambraccia":
+                    musclesChipGroup.check(R.id.forearms);
+                    break;
+                case "Dorso":
+                    musclesChipGroup.check(R.id.back);
+                    break;
+                case "Petto":
+                    musclesChipGroup.check(R.id.chest);
+                    break;
+                case "Addome":
+                    musclesChipGroup.check(R.id.waist);
+                    break;
+                case "Fianchi":
+                    musclesChipGroup.check(R.id.hips);
+                    break;
+                case "Cosce":
+                    musclesChipGroup.check(R.id.thighs);
+                    break;
+                case "Polpacci":
+                    musclesChipGroup.check(R.id.calves);
+                    break;
+            }
+
             exerciseTypeRadio.check(typeId);
             if (exercise.getMovement().equals("Spinta")) {
                 movementId = R.id.pushing_radio;
@@ -92,34 +131,32 @@ public class AddExerciseFragment extends Fragment {
 
         addExerciseButton.setOnClickListener(v -> {
             if (checkForm()) {
-                Exercise oldExercise = model.getExerciseFromName(exerciseNameEditText.getText().toString());
+
+                /*Exercise oldExercise = model.getExerciseFromName(exerciseNameEditText.getText().toString());
                 if (oldExercise != null) {
-                    Log.d(TAG, "exercise update");
-                    model.updateExercise(oldExercise);
-                } else {
-                    RadioButton checkedType = this.rootView.findViewById(exerciseTypeRadio.getCheckedRadioButtonId());
-                    RadioButton checkedMovement = this.rootView.findViewById(exerciseMovementRadio.getCheckedRadioButtonId());
-
-                    int muscleChipId = musclesChipGroup.getCheckedChipId();
-                    Chip muscle = musclesChipGroup.findViewById(muscleChipId);
-
-                    Exercise exercise = new Exercise(
-                            exerciseNameEditText.getText().toString(),
-                            checkedType.getText().toString(),
-                            checkedMovement.getText().toString(), muscle.getText().toString());
-
-                    MainActivity.repo.insertExercise(exercise);
-                }
-                getActivity().getSupportFragmentManager().popBackStack();
+                    model.deleteExercise(oldExercise);
+                }*/
+               saveExercise();
             }
         });
+
+        // This callback will only be called when MyFragment is at least Started.
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                if (checkForm()){
+                    saveExercise();
+                }
+            }
+        };
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), callback);
 
         return this.rootView;
     }
 
-    public boolean checkForm() {
+    private boolean checkForm() {
         if (exerciseNameEditText.getText().toString().isEmpty() ||
-            musclesChipGroup.getCheckedChipId() == View.NO_ID) {
+                musclesChipGroup.getCheckedChipId() == View.NO_ID) {
             Toast toast = Toast.makeText(getContext(),
                     "Riempi tutti i campi!",
                     Toast.LENGTH_LONG);
@@ -128,5 +165,20 @@ public class AddExerciseFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private void saveExercise() {
+        RadioButton checkedType = this.rootView.findViewById(exerciseTypeRadio.getCheckedRadioButtonId());
+        RadioButton checkedMovement = this.rootView.findViewById(exerciseMovementRadio.getCheckedRadioButtonId());
+        int muscleChipId = musclesChipGroup.getCheckedChipId();
+        Chip muscle = musclesChipGroup.findViewById(muscleChipId);
+
+        pendingExercise = new Exercise(
+                exerciseNameEditText.getText().toString(),
+                checkedType.getText().toString(),
+                checkedMovement.getText().toString(), muscle.getText().toString());
+        model.insertExercise(pendingExercise);
+        MainActivity.hideKeyboard(requireActivity());
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

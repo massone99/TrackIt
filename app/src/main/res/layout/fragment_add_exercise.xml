@@ -179,6 +179,14 @@
                 android:text="@string/waist" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/hips"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/hips" />
+
+            <com.google.android.material.chip.Chip
                 android:id="@+id/thighs"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"

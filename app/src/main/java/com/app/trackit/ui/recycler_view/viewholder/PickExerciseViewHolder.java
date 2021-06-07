@@ -3,16 +3,17 @@ package com.app.trackit.ui.recycler_view.viewholder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.app.trackit.model.Workout;
-import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.model.PerformedExercise;
+import com.app.trackit.model.Workout;
+import com.app.trackit.ui.MainActivity;
 import com.google.android.material.card.MaterialCardView;
 
 public class PickExerciseViewHolder extends RecyclerView.ViewHolder {
@@ -33,6 +34,7 @@ public class PickExerciseViewHolder extends RecyclerView.ViewHolder {
         nameTextView = itemView.findViewById(R.id.pick_exercise_item_text_view);
         typeTextView = itemView.findViewById(R.id.pick_exercise_item_type_text_view);
         movementTextView = itemView.findViewById(R.id.pick_exercise_item_movement_text_view);
+
 
         cardView.setOnClickListener(v -> {
             PerformedExercise exercise;
