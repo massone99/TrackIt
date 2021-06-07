@@ -50,9 +50,11 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
 
         ImageButton removeSet = itemView.findViewById(R.id.remove_set);
         removeSet.setOnClickListener(v -> {
-            MainActivity.repo.deleteSet(
-                    MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()))
-            );
+            Set tmp = MainActivity.repo.getSetFromId(Integer.parseInt(idTextView.getText().toString()));
+            model.removePendingSetChanges(tmp);
+//            model.submitSetChanges();
+            itemView.clearFocus();
+            MainActivity.repo.deleteSet(tmp);
         });
     }
 

@@ -33,15 +33,11 @@ public interface WorkoutDao {
     @Query("UPDATE workouts SET confirmed = 0 WHERE workoutId = :id")
     void editWorkout(int id);
 
-    @Query("SELECT * FROM workouts")
+    @Query("SELECT * FROM workouts ORDER BY date DESC")
     LiveData<List<Workout>> getAll();
 
     @Query("SELECT * FROM workouts WHERE workoutId = :id")
     ListenableFuture<Workout> getWorkout(int id);
-
-    @Transaction
-    @Query("SELECT * FROM workouts")
-    List<WorkoutWithExercisesAndSets> getWorkoutsWithExercisesAndSets();
 
     @Transaction
     @Query("select * from workouts where confirmed = 0")

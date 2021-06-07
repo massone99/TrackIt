@@ -75,10 +75,25 @@ public class Set {
         return parentPerformedExerciseId;
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         Set set = (Set) o;
 
+        if (weight != set.weight) return false;
+        return reps == set.reps;
+    }*/
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Set set = (Set) o;
+
+        if (setId != set.setId) return false;
+        if (number != set.number) return false;
+        if (parentPerformedExerciseId != set.parentPerformedExerciseId) return false;
+        if (relativeExerciseId != set.relativeExerciseId) return false;
         if (weight != set.weight) return false;
         return reps == set.reps;
     }

@@ -105,20 +105,16 @@ public class ChartAdapter extends ListAdapter<Exercise, ChartViewHolder> {
         LineData data = new LineData(dataSet);
         data.setValueTextSize(13f);
 
-/*
-
-        repsData.setValueTextColor(Color.BLACK);
-        repsData.setValueTextSize(9f);
-
-        weightData.setValueTextColor(Color.BLACK);
-        weightData.setValueTextSize(9f);
-*/
-
         XAxis xAxis = holder.getLineChart().getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawLabels(false);
+        holder.getLineChart().getAxisRight().setDrawGridLines(false);
+        holder.getLineChart().getAxisLeft().setDrawGridLines(false);
+        xAxis.setEnabled(false);
 
         LineChart chart = holder.getLineChart();
+        chart.setBorderColor(R.color.black);
+        chart.setBorderWidth(2);
         chart.setDescription(null);
 
         chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {

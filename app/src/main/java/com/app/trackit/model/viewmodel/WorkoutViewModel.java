@@ -14,6 +14,7 @@ import com.app.trackit.model.Workout;
 import com.app.trackit.model.db.TrackItRepository;
 import com.app.trackit.ui.MainActivity;
 
+import java.util.ConcurrentModificationException;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,17 +22,17 @@ import java.util.stream.Collectors;
 
 public class WorkoutViewModel extends AndroidViewModel {
 
-    private static final String TAG= "WorkoutViewModel";
+    private static final String TAG = "WorkoutViewModel";
 
     private final TrackItRepository repository;
-    private List<Set> changes;
+    private List<Set> setChanges;
     private int workoutId;
     private LiveData<List<PerformedExercise>> exercises;
 
     public WorkoutViewModel(@NonNull Application application) {
         super(application);
         repository = MainActivity.repo;
-        changes = new LinkedList<>();
+        setChanges = new LinkedList<>();
     }
 
     public void updateExercisesDate(int parentWorkoutId, Date date) {
@@ -62,17 +63,30 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public void addPendingSetChanges(Set set) {
-        changes.add(set);
-        /*for (Set s : changes) {
-            Log.d(TAG, "SetID: " + String.valueOf(s.getReps()));
-            Log.d(TAG, "Reps: " + String.valueOf(s.getReps()));
-            Log.d(TAG, "Weight: " + String.valueOf(s.getWeight()));
-        }*/
+        setChanges.add(set);
+    }
+
+    public void removePendingSetChanges(Set set) {
+        try {
+            for (Set s : setChanges) {
+                if (s.getId() == set.getId()) {
+                    setChanges.remove(s);
+                }
+            }
+        } catch (ConcurrentModificationException e) {
+            e.printStackTrace();
+        }
+        Log.d(TAG, "SetChanges: " + String.valueOf(setChanges.size()));
+        for (Set s2 : setChanges) {
+            Log.d(TAG, "Set ID: " + String.valueOf(s2.setId));
+        }
     }
 
     public void submitSetChanges() {
-        for (Set set : changes) {
-            repository.insertSet(set);
+        for (Set set : setChanges) {
+            if (set.getReps() != 0 || set.getWeight() != 0) {
+                repository.insertSet(set);
+            }
         }
     }
 
@@ -86,10 +100,6 @@ public class WorkoutViewModel extends AndroidViewModel {
 
     public void deleteExercise(Exercise exercise) {
         repository.deleteExercise(exercise);
-    }
-
-    public void updateExercise(Exercise exercise) {
-        repository.updateExercise(exercise);
     }
 
     public void updateWorkout(Workout workout) {
@@ -135,6 +145,6 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public void emptySetChanges() {
-        changes = new LinkedList<>();
+        setChanges = new LinkedList<>();
     }
 }

@@ -111,6 +111,7 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
             }
 
             if(photoFile != null) {
+                Log.d(TAG, "photoFile != null");
                 Uri photoUri = FileProvider.getUriForFile(getContext(),
                         "com.app.trackit.fileprovider",
                         photoFile);

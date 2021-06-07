@@ -31,6 +31,8 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder{
 
         final TextView addSet = itemView.findViewById(R.id.workout_exercise_item_add_set);
         addSet.setOnClickListener(v -> {
+            itemView.clearFocus();
+            model.submitSetChanges();
             Set set = new Set(model.getNextSetValueForExercise(performedExerciseId),
                     performedExerciseId, model.getExerciseIdFromPerformed(performedExerciseId));
             MainActivity.repo.insertSet(set);
@@ -40,6 +42,7 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder{
 
         removeButton.setOnClickListener(v -> {
             MainActivity.repo.deletePerformedExercise(MainActivity.repo.getPerformedExercise(performedExerciseId));
+            model.submitSetChanges();
 //            (requireContext() as Activity).currentFocus?.clearFocus()
             itemView.clearFocus();
         });
