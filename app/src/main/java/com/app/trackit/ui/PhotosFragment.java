@@ -2,12 +2,16 @@ package com.app.trackit.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,10 +30,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
 import com.app.trackit.model.Photo;
+import com.app.trackit.model.utility.Utilities;
 import com.app.trackit.model.viewmodel.PhotosViewModel;
 import com.app.trackit.ui.recycler_view.adapter.PhotoAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.SocketImpl;
 import java.text.ParseException;
@@ -54,6 +62,7 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
 
     private File photoFile;
     private String timestamp;
+    private String currentPhotoPath;
 
     public PhotosFragment() {
         super(R.layout.fragment_photos);
@@ -72,6 +81,10 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
                             photosViewModel.addPhoto(
                                     new Photo(new SimpleDateFormat("ddMMyyyy", Locale.ITALY).parse(timestamp),
                                     Uri.fromFile(photoFile)));
+
+                            Bitmap bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                            bitmap = rotateImage(bitmap, -90);
+                            saveImageToPublicDir(bitmap);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -112,6 +125,7 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
 
             if(photoFile != null) {
                 Log.d(TAG, "photoFile != null");
+                // WORKING CODE
                 Uri photoUri = FileProvider.getUriForFile(getContext(),
                         "com.app.trackit.fileprovider",
                         photoFile);
@@ -125,13 +139,35 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onResume() {
         super.onResume();
-        String time = new SimpleDateFormat("ddMMyyyy").format(new Date());
+        String time = new SimpleDateFormat("ddMMyyyy", Locale.ITALY).format(new Date());
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = new File(storageDir, time + ".jpg");
         if (image.exists() && (photosViewModel.getPhotoFromUri(Uri.fromFile(image)) == null)) {
             image.delete();
         }
         recyclerView.setAdapter(photoAdapter);
+    }
+
+    private void saveImageToPublicDir(Bitmap bitmap) {
+        File file = new File(
+                "/storage/emulated/0/Pictures/",
+                new SimpleDateFormat("ddMMyyyy", Locale.ITALY).format(new Date())
+                        + ".jpg");
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
     }
 
     private File createImageFile() throws IOException {
@@ -141,7 +177,8 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
         timestamp = new SimpleDateFormat("ddMMyyyy", Locale.ITALY).format(new Date());
 
         // FOR TESTING ONLY
-        // timestamp = "13062021";
+//        timestamp = "30052021";
+        // PREVIOUS CODE - WORKING
         File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = new File(storageDir, timestamp + ".jpg");
         if (image.exists()) {
@@ -152,9 +189,17 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
             Log.d(TAG, String.valueOf(image.exists()));
         }
         if (image.createNewFile()) {
+            currentPhotoPath = image.getAbsolutePath();
             return image;
         } else {
             return null;
         }
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 }

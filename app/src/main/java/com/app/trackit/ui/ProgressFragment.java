@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
+import com.app.trackit.model.utility.Utilities;
 import com.app.trackit.model.viewmodel.StatsViewModel;
 import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.model.viewmodel.WorkoutViewModel;
@@ -28,6 +30,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.ValueFormatter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.common.collect.FluentIterable;
 
 import java.text.SimpleDateFormat;

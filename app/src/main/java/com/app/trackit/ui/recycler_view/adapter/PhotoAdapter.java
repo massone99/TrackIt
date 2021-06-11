@@ -42,7 +42,7 @@ public class PhotoAdapter extends ListAdapter<Photo, PhotoViewHolder> {
     public void onBindViewHolder(@NonNull PhotoViewHolder holder, int position) {
         Photo currentPhoto = getItem(position);
         holder.bind(new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY)
-                .format(currentPhoto.getTimeStamp()));
+                .format(currentPhoto.getTimeStamp()), currentPhoto);
         holder.getDeleteButton().setOnClickListener(v -> {
             photosViewModel.deletePhoto(currentPhoto);
         });

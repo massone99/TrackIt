@@ -86,7 +86,13 @@ public class ChartAdapter extends ListAdapter<Exercise, ChartViewHolder> {
         }
 
         ArrayList<ILineDataSet> dataSet = new ArrayList<>();
-        LineDataSet repsDataSet = new LineDataSet(repsValues, "Ripetizioni");
+        String label;
+        if (current.getType().equals("Tempo")) {
+            label = "Tempo";
+        } else {
+            label = "Ripetizioni";
+        }
+        LineDataSet repsDataSet = new LineDataSet(repsValues, label);
         LineDataSet weightDataSet = new LineDataSet(weightValues, "Peso");
         dataSet.add(repsDataSet);
         dataSet.add(weightDataSet);
@@ -108,11 +114,15 @@ public class ChartAdapter extends ListAdapter<Exercise, ChartViewHolder> {
         XAxis xAxis = holder.getLineChart().getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawLabels(false);
-        holder.getLineChart().getAxisRight().setDrawGridLines(false);
-        holder.getLineChart().getAxisLeft().setDrawGridLines(false);
-        xAxis.setEnabled(false);
+//        holder.getLineChart().getAxisRight().setDrawGridLines(false);
+        holder.getLineChart().getAxisRight().setDrawLabels(false);
+//        holder.getLineChart().getAxisLeft().setDrawGridLines(false);
+        holder.getLineChart().getAxisLeft().setDrawLabels(false);
+//        xAxis.setEnabled(false);
 
         LineChart chart = holder.getLineChart();
+//        chart.setBackgroundColor(R.color.whitesmoke);
+        chart.setGridBackgroundColor(R.color.whitesmoke);
         chart.setBorderColor(R.color.black);
         chart.setBorderWidth(2);
         chart.setDescription(null);

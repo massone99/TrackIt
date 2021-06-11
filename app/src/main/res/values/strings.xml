@@ -49,6 +49,7 @@
     <string name="your_photos">Le tue foto</string>
     <string name="delete_photo">Cancella foto</string>
     <string name="your_photo">Your photo</string>
+    <string name="sample_date">00/00/00</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

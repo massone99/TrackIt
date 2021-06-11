@@ -2,6 +2,7 @@ package com.app.trackit.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
+import com.app.trackit.model.utility.Utilities;
 import com.app.trackit.model.viewmodel.ExercisesViewModel;
 import com.app.trackit.ui.recycler_view.adapter.ExerciseListAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ExercisesFragment extends Fragment implements LifecycleOwner{
 

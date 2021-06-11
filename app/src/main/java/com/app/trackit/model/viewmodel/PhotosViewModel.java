@@ -58,9 +58,12 @@ public class PhotosViewModel extends AndroidViewModel {
     }
 
     public void deletePhoto(Photo photo) {
-        File image = new File(photo.getUri().getPath());
-        image.delete();
-        repository.deletePhoto(photo);
+        File image = null;
+        try {
+            image = new File(photo.getUri().getPath());
+            image.delete();
+            repository.deletePhoto(photo);
+        } catch (NullPointerException ignored) { }
     }
 
     private void initBitmap() {

@@ -1,12 +1,10 @@
 package com.app.trackit.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -19,14 +17,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.app.trackit.R;
 import com.app.trackit.model.Exercise;
+import com.app.trackit.model.utility.Utilities;
 import com.app.trackit.model.viewmodel.WorkoutViewModel;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textview.MaterialTextView;
-
-import java.util.Objects;
-import java.util.concurrent.ExecutorService;
 
 public class AddExerciseFragment extends Fragment {
 
@@ -40,6 +36,7 @@ public class AddExerciseFragment extends Fragment {
 
     private WorkoutViewModel model;
 
+    private Exercise previousExercise;
     private Exercise pendingExercise;
 
     public AddExerciseFragment() {
@@ -73,21 +70,23 @@ public class AddExerciseFragment extends Fragment {
         }
 
         if (edit) {
+            // The page is setted with params of the exercise that we are going to edit
+
             textView.setText("Modifica Esercizio");
 
-            Exercise exercise = model.getExerciseFromId(getArguments().getInt("exerciseId"));
-            model.deleteExercise(exercise);
+            // We save the previous Exercise
+            previousExercise = model.getExerciseFromId(getArguments().getInt("exerciseId"));
+
             int typeId;
             int movementId;
-            exerciseNameEditText.setText(exercise.getName());
-            if (exercise.getType().equals("Ripetizioni")) {
+            exerciseNameEditText.setText(previousExercise.getName());
+            if (previousExercise.getType().equals("Ripetizioni")) {
                 typeId = R.id.concentric_radio;
             } else {
                 typeId = R.id.isometric_radio;
             }
 
-            Log.d(TAG, exercise.getMuscle());
-            switch (exercise.getMuscle()) {
+            switch (previousExercise.getMuscle()) {
                 case "Collo":
                     musclesChipGroup.check(R.id.neck);
                     break;
@@ -121,7 +120,7 @@ public class AddExerciseFragment extends Fragment {
             }
 
             exerciseTypeRadio.check(typeId);
-            if (exercise.getMovement().equals("Spinta")) {
+            if (previousExercise.getMovement().equals("Spinta")) {
                 movementId = R.id.pushing_radio;
             } else {
                 movementId = R.id.pulling_radio;
@@ -132,20 +131,26 @@ public class AddExerciseFragment extends Fragment {
         addExerciseButton.setOnClickListener(v -> {
             if (checkForm()) {
 
-                /*Exercise oldExercise = model.getExerciseFromName(exerciseNameEditText.getText().toString());
-                if (oldExercise != null) {
-                    model.deleteExercise(oldExercise);
-                }*/
-               saveExercise();
+                // Exercise replaced only if there are differences
+                saveExercise();
+            } else {
+                Toast toast = Toast.makeText(getContext(),
+                        "Riempi tutti i campi!",
+                        Toast.LENGTH_LONG);
+
+                toast.show();
             }
         });
 
         // This callback will only be called when MyFragment is at least Started.
-        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (checkForm()){
+                if (checkForm()) {
                     saveExercise();
+                } else {
+                    Utilities.hideKeyboard(requireActivity());
+                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             }
         };
@@ -157,11 +162,6 @@ public class AddExerciseFragment extends Fragment {
     private boolean checkForm() {
         if (exerciseNameEditText.getText().toString().isEmpty() ||
                 musclesChipGroup.getCheckedChipId() == View.NO_ID) {
-            Toast toast = Toast.makeText(getContext(),
-                    "Riempi tutti i campi!",
-                    Toast.LENGTH_LONG);
-
-            toast.show();
             return false;
         }
         return true;
@@ -173,12 +173,25 @@ public class AddExerciseFragment extends Fragment {
         int muscleChipId = musclesChipGroup.getCheckedChipId();
         Chip muscle = musclesChipGroup.findViewById(muscleChipId);
 
-        pendingExercise = new Exercise(
-                exerciseNameEditText.getText().toString(),
-                checkedType.getText().toString(),
-                checkedMovement.getText().toString(), muscle.getText().toString());
-        model.insertExercise(pendingExercise);
-        MainActivity.hideKeyboard(requireActivity());
-        getActivity().getSupportFragmentManager().popBackStack();
+        if (previousExercise != null) {
+            previousExercise
+                    .setName(exerciseNameEditText.getText().toString())
+                    .setType(checkedType.getText().toString())
+                    .setMovement(checkedMovement.getText().toString())
+                    .setMuscle(muscle.getText().toString());
+            model.insertExercise(previousExercise);
+            Utilities.hideKeyboard(requireActivity());
+            getActivity().getSupportFragmentManager().popBackStack();
+        } else {
+            pendingExercise = new Exercise(
+                    exerciseNameEditText.getText().toString(),
+                    checkedType.getText().toString(),
+                    checkedMovement.getText().toString(),
+                    muscle.getText().toString());
+            model.insertExercise(pendingExercise);
+            Utilities.hideKeyboard(requireActivity());
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
     }
+
 }

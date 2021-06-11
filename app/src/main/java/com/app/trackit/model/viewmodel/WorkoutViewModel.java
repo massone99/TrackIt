@@ -16,8 +16,10 @@ import com.app.trackit.ui.MainActivity;
 
 import java.util.ConcurrentModificationException;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class WorkoutViewModel extends AndroidViewModel {
@@ -25,14 +27,14 @@ public class WorkoutViewModel extends AndroidViewModel {
     private static final String TAG = "WorkoutViewModel";
 
     private final TrackItRepository repository;
-    private List<Set> setChanges;
+    private Map<Integer, Set> setChanges;
     private int workoutId;
     private LiveData<List<PerformedExercise>> exercises;
 
     public WorkoutViewModel(@NonNull Application application) {
         super(application);
         repository = MainActivity.repo;
-        setChanges = new LinkedList<>();
+        setChanges = new HashMap<>();
     }
 
     public void updateExercisesDate(int parentWorkoutId, Date date) {
@@ -45,6 +47,10 @@ public class WorkoutViewModel extends AndroidViewModel {
 
     public void insertExercise(Exercise exercise) {
         repository.insertExercise(exercise);
+    }
+
+    public void updateExercise(Exercise exercise) {
+        repository.updateExercise(exercise);
     }
 
     public boolean isExerciseFavorite(int exerciseId) {
@@ -63,27 +69,27 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public void addPendingSetChanges(Set set) {
-        setChanges.add(set);
+        setChanges.put(set.getId(), set);
     }
 
     public void removePendingSetChanges(Set set) {
         try {
-            for (Set s : setChanges) {
-                if (s.getId() == set.getId()) {
-                    setChanges.remove(s);
+            for (int setId : setChanges.keySet()) {
+                if (setId == set.getId()) {
+                    setChanges.remove(setId);
                 }
             }
         } catch (ConcurrentModificationException e) {
             e.printStackTrace();
         }
-        Log.d(TAG, "SetChanges: " + String.valueOf(setChanges.size()));
+        /*Log.d(TAG, "SetChanges: " + String.valueOf(setChanges.size()));
         for (Set s2 : setChanges) {
             Log.d(TAG, "Set ID: " + String.valueOf(s2.setId));
-        }
+        }*/
     }
 
     public void submitSetChanges() {
-        for (Set set : setChanges) {
+        for (Set set : setChanges.values()) {
             if (set.getReps() != 0 || set.getWeight() != 0) {
                 repository.insertSet(set);
             }
@@ -145,6 +151,6 @@ public class WorkoutViewModel extends AndroidViewModel {
     }
 
     public void emptySetChanges() {
-        setChanges = new LinkedList<>();
+        setChanges = new HashMap<>();
     }
 }

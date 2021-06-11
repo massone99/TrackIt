@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.model.Workout;
 import com.app.trackit.model.viewmodel.WorkoutViewModel;
-import com.app.trackit.ui.MainActivity;
 import com.app.trackit.R;
 import com.app.trackit.ui.AddWorkoutFragment;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,7 +26,8 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
 
     private int workoutId;
     private boolean edit;
-    private final MaterialTextView workoutTextView;
+    private final MaterialTextView titleTextView;
+    private final MaterialTextView dateTextView;
 
     private WorkoutViewModel model;
 
@@ -33,8 +35,10 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         AppCompatActivity activity = (AppCompatActivity) itemView.getContext();
         model = new ViewModelProvider(activity).get(WorkoutViewModel.class);
-        workoutTextView = itemView.findViewById(R.id.home_item_text_view);
-        workoutTextView.setOnClickListener(v -> {
+        titleTextView = itemView.findViewById(R.id.home_item_title);
+        dateTextView = itemView.findViewById(R.id.home_item_data);
+        MaterialCardView cardView = itemView.findViewById(R.id.home_item_card_view);
+        cardView.setOnClickListener(v -> {
             model.editWorkout();
             edit = true;
             Bundle bundle = new Bundle();
@@ -65,16 +69,15 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(int workoutId) {
         try {
-
             Workout workout = model.getWorkoutFromId(workoutId);
-
-            workoutTextView.setText("Workout del " + new SimpleDateFormat("dd/MM/yyyy").format(workout.getDate()));
+            titleTextView.setText(workout.getWorkoutName());
+            dateTextView.setText(new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(workout.getDate()));
             this.workoutId = workoutId;
         } catch (NullPointerException ignored) { }
     }
 
-    public MaterialTextView getWorkoutTextView() {
-        return workoutTextView;
+    public MaterialTextView getDateTextView() {
+        return dateTextView;
     }
 
     public int getWorkoutId() { return workoutId; }

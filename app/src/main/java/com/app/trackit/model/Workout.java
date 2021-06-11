@@ -8,16 +8,19 @@ import androidx.room.PrimaryKey;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.Nullable;
+
 @Entity(tableName = "workouts")
 public class Workout {
 
     @PrimaryKey(autoGenerate = true)
     private int workoutId;
+    private String workoutName;
     private Date date;
     private boolean confirmed;
 
-    public Workout() {
-//        this.date = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+    public Workout( String workoutName) {
+        this.workoutName = workoutName;
         this.date = new Date();
         this.confirmed = false;
     }
@@ -48,5 +51,13 @@ public class Workout {
      */
     public void setConfirmed(boolean confirmed) {
         this.confirmed = confirmed;
+    }
+
+    public String getWorkoutName() {
+        return workoutName;
+    }
+
+    public void setWorkoutName(String workoutName) {
+        this.workoutName = workoutName;
     }
 }

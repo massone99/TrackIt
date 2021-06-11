@@ -86,26 +86,28 @@ public class SetListViewHolder extends RecyclerView.ViewHolder {
             );
         } catch (NullPointerException ignored) {
         }
-        if (exercise.getType().equals("Ripetizioni")) {
-            itemView.findViewById(R.id.set_time_label).setVisibility(View.GONE);
-            itemView.findViewById(R.id.set_time_text_view).setVisibility(View.GONE);
+        if (exercise != null) {
+            if (exercise.getType().equals("Ripetizioni")) {
+                itemView.findViewById(R.id.set_time_label).setVisibility(View.GONE);
+                itemView.findViewById(R.id.set_time_text_view).setVisibility(View.GONE);
 
-            EditText reps = itemView.findViewById(R.id.set_reps_text_view);
-            ImageButton delete = itemView.findViewById(R.id.remove_set);
+                EditText reps = itemView.findViewById(R.id.set_reps_text_view);
+                ImageButton delete = itemView.findViewById(R.id.remove_set);
 
-            // To make the layout display correctly, it is needed to change
-            // the constraints dynamically
-            ConstraintLayout constraintLayout = itemView.findViewById(R.id.set_constraint_layout);
+                // To make the layout display correctly, it is needed to change
+                // the constraints dynamically
+                ConstraintLayout constraintLayout = itemView.findViewById(R.id.set_constraint_layout);
 
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(constraintLayout);
+                ConstraintSet constraintSet = new ConstraintSet();
+                constraintSet.clone(constraintLayout);
 
-            constraintSet.connect(delete.getId(), ConstraintSet.START, reps.getId(), ConstraintSet.END, 16);
-            constraintSet.applyTo(constraintLayout);
+                constraintSet.connect(delete.getId(), ConstraintSet.START, reps.getId(), ConstraintSet.END, 16);
+                constraintSet.applyTo(constraintLayout);
 
-        } else {
-            itemView.findViewById(R.id.set_reps_label).setVisibility(View.GONE);
-            itemView.findViewById(R.id.set_reps_text_view).setVisibility(View.GONE);
+            } else {
+                itemView.findViewById(R.id.set_reps_label).setVisibility(View.GONE);
+                itemView.findViewById(R.id.set_reps_text_view).setVisibility(View.GONE);
+            }
         }
     }
 
