@@ -34,7 +34,10 @@ public interface WorkoutDao {
     void editWorkout(int id);
 
     @Query("SELECT * FROM workouts ORDER BY date DESC")
-    LiveData<List<Workout>> getAll();
+    LiveData<List<Workout>> getObservableWorkouts();
+
+    @Query("SELECT * FROM workouts ORDER BY date DESC")
+    ListenableFuture<List<Workout>> getWorkouts();
 
     @Query("SELECT * FROM workouts WHERE workoutId = :id")
     ListenableFuture<Workout> getWorkout(int id);

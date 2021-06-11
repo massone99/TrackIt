@@ -50,6 +50,11 @@
     <string name="delete_photo">Cancella foto</string>
     <string name="your_photo">Your photo</string>
     <string name="sample_date">00/00/00</string>
+    <string name="workout_helper">Premi il tasto + per aggiungere un nuovo workout o creare un nuovo esercizio!</string>
+    <string name="exercise_helper">Premi il tasto + nella pagina degli allenamenti per aggiungere un nuovo esercizio!</string>
+    <string name="progress_helper">Aggiungi un esercizio ai preferiti per iniziare a tracciarne i progressi!</string>
+    <string name="photos_helper">Scatta una foto per iniziare a monitorare i tuoi miglioramenti nel tempo!</string>
+    <string name="take_a_photo">Scatta una foto</string>
     <string-array
         name="muscle_groups">
         <item>@string/neck</item>

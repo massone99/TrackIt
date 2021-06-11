@@ -18,6 +18,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/workout_helper"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="2dp"
+        app:layout_constraintBottom_toTopOf="@id/home_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/your_workouts_text_view"
+        app:strokeColor="@color/whitesmoke"
+        app:strokeWidth="1dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/workout_helper"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_recycler_view"
         android:layout_width="match_parent"
@@ -26,7 +52,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/your_workouts_text_view" />
+        app:layout_constraintTop_toBottomOf="@+id/workout_helper" />
 
     <include layout="@layout/fab_button"/>
 

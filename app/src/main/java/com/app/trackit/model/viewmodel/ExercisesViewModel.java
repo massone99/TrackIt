@@ -31,6 +31,4 @@ public class ExercisesViewModel extends AndroidViewModel {
         return repository.isExerciseFavorite(exercise.getExerciseId());
     }
 
-    // FIXME:
-    // A population method for the main exercises could be added here
 }

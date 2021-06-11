@@ -1,6 +1,7 @@
 package com.app.trackit.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.trackit.R;
+import com.app.trackit.model.Workout;
 import com.app.trackit.model.utility.Utilities;
 import com.app.trackit.model.viewmodel.WorkoutListViewModel;
 import com.app.trackit.ui.components.AddFab;
@@ -22,6 +24,7 @@ import com.app.trackit.ui.recycler_view.adapter.WorkoutListAdapter;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Collections;
+import java.util.List;
 
 public class WorkoutsFragment extends Fragment implements LifecycleOwner {
 
@@ -53,12 +56,18 @@ public class WorkoutsFragment extends Fragment implements LifecycleOwner {
         View rootView = inflater.inflate(R.layout.fragment_workouts, container, false);
         rootView.setTag(TAG);
 
+        List<Workout> list = model.getWorkouts();
+
+        if (list.size() > 0) {
+            rootView.findViewById(R.id.workout_helper).setVisibility(View.GONE);
+        }
+
         model.getObservableWorkouts().observe(getViewLifecycleOwner(), workouts -> {
             workoutListAdapter.submitList(workouts);
             workoutListAdapter.notifyDataSetChanged();
         });
 
-        // FIXME: put this button inside the other fragments too
+        // FIXME: put this button inside the other fragments too, for a better UX
         this.fab = new AddFab(
                 rootView.findViewById(R.id.fab_add),
                 rootView.findViewById(R.id.fab_add_exercise),
@@ -75,8 +84,6 @@ public class WorkoutsFragment extends Fragment implements LifecycleOwner {
 
         workoutListAdapter = new WorkoutListAdapter(new WorkoutListAdapter.WorkoutDiff(), getActivity());
         recyclerView.setAdapter(workoutListAdapter);
-
-//        Log.d(TAG, String.valueOf(MainActivity.repo.getBestSetForReps(1).getReps()));
 
         return rootView;
     }

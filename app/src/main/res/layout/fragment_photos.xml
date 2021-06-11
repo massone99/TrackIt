@@ -21,24 +21,40 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/black" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/photos_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="2dp"
+            android:layout_below="@id/photos_title"
+            app:strokeColor="@color/whitesmoke"
+            app:strokeWidth="1dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/photos_helper"
+                android:textAlignment="center"
+                android:textStyle="italic" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
-            android:layout_below="@id/photos_title"
+            android:layout_height="500dp"
+            android:layout_below="@id/photos_helper"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:horizontalSpacing="8dp"
             android:verticalSpacing="8dp" />
 
-<!--        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_below="@id/photos_title"
-            android:rotation="90"/>-->
 
         <Button
             android:id="@+id/take_photo"
@@ -46,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="Scatta una foto"/>
+            android:text="@string/take_a_photo"/>
 
     </RelativeLayout>
 

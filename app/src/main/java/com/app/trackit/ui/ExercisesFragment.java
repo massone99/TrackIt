@@ -37,10 +37,6 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         model = new ViewModelProvider(this).get(ExercisesViewModel.class);
-        model.getAllExercises().observe(this, exerciseList -> {
-            exerciseListAdapter.submitList(exerciseList);
-            exerciseListAdapter.notifyDataSetChanged();
-        });
     }
 
     @Nullable
@@ -54,6 +50,14 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
                 container,
                 false);
         rootView.setTag(TAG);
+
+        model.getAllExercises().observe(getViewLifecycleOwner(), exerciseList -> {
+            if (exerciseList.size() > 0) {
+                rootView.findViewById(R.id.exercise_helper).setVisibility(View.GONE);
+            }
+            exerciseListAdapter.submitList(exerciseList);
+            exerciseListAdapter.notifyDataSetChanged();
+        });
 
         recyclerView = rootView.findViewById(R.id.exercises_recycler_view);
         recyclerView.setHasFixedSize(true);

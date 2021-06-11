@@ -25,7 +25,6 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
     private static final String TAG = "WorkoutListViewHolder";
 
     private int workoutId;
-    private boolean edit;
     private final MaterialTextView titleTextView;
     private final MaterialTextView dateTextView;
 
@@ -40,7 +39,6 @@ public class WorkoutListViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView cardView = itemView.findViewById(R.id.home_item_card_view);
         cardView.setOnClickListener(v -> {
             model.editWorkout();
-            edit = true;
             Bundle bundle = new Bundle();
             bundle.putBoolean("edit", true);
             bundle.putInt("workoutId", workoutId);

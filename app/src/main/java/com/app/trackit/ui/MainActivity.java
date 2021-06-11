@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         super.onCreate(savedInstanceState);
         // To disable the Night mode. It will be developed in the future releases
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        // To tolerate Uri exposure and share images with phone's gallery apps
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         repo = new TrackItRepository(getApplication());
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements LifecycleOwner {
         alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
                 System.currentTimeMillis() + (1000*60),
-                (AlarmManager.INTERVAL_FIFTEEN_MINUTES/15),
+                AlarmManager.INTERVAL_DAY,
                 pendingIntent);
 
         BottomNavigationView navigationView = findViewById(R.id.bottom_navigation);

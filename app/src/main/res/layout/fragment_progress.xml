@@ -24,11 +24,34 @@
             android:textColor="@color/black"
             tools:text="I tuoi progressi" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/progress_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="25dp"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="2dp"
+            android:layout_below="@id/progress_title"
+            app:strokeColor="@color/whitesmoke"
+            app:strokeWidth="1dp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/progress_helper"
+                android:textAlignment="center"
+                android:textStyle="italic" />
+
+        </com.google.android.material.card.MaterialCardView>
+
         <androidx.core.widget.NestedScrollView
             android:id="@+id/nested_view_charts"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/progress_title"
+            android:layout_below="@id/progress_helper"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
             android:layout_marginTop="3dp">

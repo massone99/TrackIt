@@ -57,11 +57,6 @@ public class ProgressFragment extends Fragment implements LifecycleOwner {
 
         statsModel = new ViewModelProvider(requireActivity()).get(StatsViewModel.class);
         workoutModel = new ViewModelProvider(requireActivity()).get(WorkoutViewModel.class);
-        workoutModel.getObservableFavorites().observe(this, exerciseList -> {
-            Log.d(TAG, exerciseList.toString());
-            chartAdapter.submitList(exerciseList);
-            chartAdapter.notifyDataSetChanged();
-        });
     }
 
     @Nullable
@@ -71,6 +66,14 @@ public class ProgressFragment extends Fragment implements LifecycleOwner {
                              @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_progress, container, false);
+
+        workoutModel.getObservableFavorites().observe( getViewLifecycleOwner(), exerciseList -> {
+            if (exerciseList.size() > 0 ) {
+                rootView.findViewById(R.id.progress_helper).setVisibility(View.GONE);
+            }
+            chartAdapter.submitList(exerciseList);
+            chartAdapter.notifyDataSetChanged();
+        });
 
         recyclerView = rootView.findViewById(R.id.progress_recycler_view);
 

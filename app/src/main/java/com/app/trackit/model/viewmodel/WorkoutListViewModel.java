@@ -30,4 +30,8 @@ public class WorkoutListViewModel extends AndroidViewModel {
     public LiveData<List<Workout>> getObservableWorkouts() {
         return workouts;
     }
+
+    public List<Workout> getWorkouts() {
+        return repository.getAllWorkouts();
+    }
 }

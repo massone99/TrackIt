@@ -15,7 +15,6 @@ import com.app.trackit.model.db.dao.ExerciseDao;
 import com.app.trackit.model.db.dao.PhotoDao;
 import com.app.trackit.model.db.dao.WorkoutDao;
 import com.app.trackit.ui.MainActivity;
-import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.Date;
 import java.util.List;
@@ -38,7 +37,7 @@ public class TrackItRepository {
         workoutDao = db.workoutDao();
         photoDao = db.photoDao();
         exercises = exerciseDao.getAllExercises();
-        workouts = workoutDao.getAll();
+        workouts = workoutDao.getObservableWorkouts();
 //        photos = photoDao.getAllByDate();
     }
 
@@ -148,15 +147,6 @@ public class TrackItRepository {
         return null;
     }
 
-    public int getBestReps(int exerciseId) {
-        try {
-            return exerciseDao.getBestReps(exerciseId).get();
-        } catch (ExecutionException | InterruptedException e) {
-            Log.d(TAG, e.toString());
-        }
-        return 0;
-    }
-
     public Set getBestSetForReps(int performedExerciseId) {
         try {
             return exerciseDao.getBestSetForReps(performedExerciseId).get();
@@ -181,6 +171,15 @@ public class TrackItRepository {
 
     public LiveData<List<Workout>> loadAllWorkouts() {
         return workouts;
+    }
+
+    public List<Workout> getAllWorkouts() {
+        try {
+            return workoutDao.getWorkouts().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public List<PerformedExercise> getWorkoutExercises(int workoutId) {
