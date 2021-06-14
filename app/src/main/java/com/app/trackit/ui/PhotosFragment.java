@@ -90,9 +90,6 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
                         }
                     }
                 });
-        photosViewModel.getObservablePhotos().observe(this, photoList -> {
-            photoAdapter.submitList(photoList);
-        });
     }
 
     @Nullable
@@ -104,6 +101,13 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        photosViewModel.getObservablePhotos().observe(getViewLifecycleOwner(), photoList -> {
+            if (photoList.size() > 0 ) {
+                view.findViewById(R.id.progress_helper).setVisibility(View.GONE);
+            }
+            photoAdapter.submitList(photoList);
+        });
 
         recyclerView = view.findViewById(R.id.grid_view);
         photoAdapter = new PhotoAdapter(new PhotoAdapter.PhotoDiff());
