@@ -52,8 +52,8 @@ public class ExercisesFragment extends Fragment implements LifecycleOwner{
         rootView.setTag(TAG);
 
         model.getAllExercises().observe(getViewLifecycleOwner(), exerciseList -> {
-            if (exerciseList.size() > 0) {
-                rootView.findViewById(R.id.exercise_helper).setVisibility(View.GONE);
+            if (exerciseList.size() == 0) {
+                rootView.findViewById(R.id.exercise_helper).setVisibility(View.VISIBLE);
             }
             exerciseListAdapter.submitList(exerciseList);
             exerciseListAdapter.notifyDataSetChanged();

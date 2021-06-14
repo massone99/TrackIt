@@ -58,8 +58,8 @@ public class WorkoutsFragment extends Fragment implements LifecycleOwner {
 
         List<Workout> list = model.getWorkouts();
 
-        if (list.size() > 0) {
-            rootView.findViewById(R.id.workout_helper).setVisibility(View.GONE);
+        if (list.size() == 0) {
+            rootView.findViewById(R.id.workout_helper).setVisibility(View.VISIBLE);
         }
 
         model.getObservableWorkouts().observe(getViewLifecycleOwner(), workouts -> {

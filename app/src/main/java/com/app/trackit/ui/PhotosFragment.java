@@ -103,8 +103,8 @@ public class PhotosFragment extends Fragment implements LifecycleOwner {
         super.onViewCreated(view, savedInstanceState);
 
         photosViewModel.getObservablePhotos().observe(getViewLifecycleOwner(), photoList -> {
-            if (photoList.size() > 0 ) {
-                view.findViewById(R.id.progress_helper).setVisibility(View.GONE);
+            if (photoList.size() == 0 ) {
+                view.findViewById(R.id.photos_helper).setVisibility(View.VISIBLE);
             }
             photoAdapter.submitList(photoList);
         });

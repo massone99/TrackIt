@@ -34,6 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/your_exercises_text_view"
         app:strokeColor="@color/whitesmoke"
+        android:visibility="gone"
         app:strokeWidth="1dp">
 
         <com.google.android.material.textview.MaterialTextView

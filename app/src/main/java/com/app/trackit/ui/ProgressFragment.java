@@ -68,8 +68,8 @@ public class ProgressFragment extends Fragment implements LifecycleOwner {
         View rootView = inflater.inflate(R.layout.fragment_progress, container, false);
 
         workoutModel.getObservableFavorites().observe( getViewLifecycleOwner(), exerciseList -> {
-            if (exerciseList.size() > 0 ) {
-                rootView.findViewById(R.id.progress_helper).setVisibility(View.GONE);
+            if (exerciseList.size() == 0 ) {
+                rootView.findViewById(R.id.progress_helper).setVisibility(View.VISIBLE);
             }
             chartAdapter.submitList(exerciseList);
             chartAdapter.notifyDataSetChanged();
